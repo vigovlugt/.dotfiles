@@ -41,19 +41,38 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  # services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+	command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.hyprland}/bin/hyprland'";
+      };
+    };
+  };
+
+  programs.hyprland.enable = true;
+
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    LIBVA_DRIVER_NAME = "nvidia";
+    XDG_SESSION_TYPE = "wayland";
+    GBM_BACKEND = "nvidia-drm";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    WLR_NO_HARDWARE_CURSORS = "1";
+    XCURSOR_SIZE = "24";
+    _JAVA_AWT_WM_NONREPARENTING = "1";
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
     variant = "";
-  };
-
-  environment.sessionVariables = {
   };
 
   # Enable CUPS to print documents.
@@ -147,6 +166,13 @@
   environment.systemPackages = with pkgs; [
     wget
     git
+    kitty
+    wofi
+    waybar
+  ];
+
+  fonts.packages = with pkgs; [
+    font-awesome
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
