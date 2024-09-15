@@ -15,13 +15,15 @@
     nodejs
     pnpm
     nixd
+    nixpkgs-fmt
     htop
     neofetch
     wl-clipboard
-    gnomeExtensions.space-bar
-    gnomeExtensions.vitals
     gcc
     rustup
+    gdu
+    jdk
+    pavucontrol
   ];
 
   wayland.windowManager.hyprland = {
@@ -111,6 +113,11 @@
     };
   };
 
+  dconf = {
+    enable = true;
+    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -157,6 +164,8 @@
   };
 
   programs.gh.enable = true;
+
+  manual.json.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

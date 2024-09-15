@@ -40,13 +40,21 @@
     LC_TIME = "nl_NL.UTF-8";
   };
 
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+
+  /*
   # Enable the X11 windowing system.
-  # services.xserver.enable = true;
+  services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  */
 
+  /*
   services.greetd = {
     enable = true;
     settings = {
@@ -67,7 +75,9 @@
     WLR_NO_HARDWARE_CURSORS = "1";
     XCURSOR_SIZE = "24";
     _JAVA_AWT_WM_NONREPARENTING = "1";
+    ELECTRON_OZONE_PLATFORM_HINT = "auto";
   };
+  */
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -87,6 +97,7 @@
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
+    open = false;
 
     # Modesetting is required.
     modesetting.enable = true;
@@ -95,7 +106,8 @@
     # Enable this if you have graphical corruption issues or application crashes after waking
     # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
     # of just the bare essentials.
-    powerManagement.enable = false;
+    # Default = false, but issues with wakeup hopefully fixed by true
+    powerManagement.enable = true;
 
     # Fine-grained power management. Turns off GPU when not in use.
     # Experimental and only works on modern Nvidia GPUs (Turing or newer).
@@ -118,12 +130,15 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    jack.enable = true;
+    # jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
@@ -161,6 +176,13 @@
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
 
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
+  };
+
+  services.tailscale.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -169,6 +191,8 @@
     kitty
     wofi
     waybar
+    mako
+    libnotify
   ];
 
   fonts.packages = with pkgs; [
