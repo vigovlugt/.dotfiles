@@ -12,18 +12,31 @@
     spotify
     kitty
     vscode
-    nodejs
-    pnpm
     nixd
     nixpkgs-fmt
     htop
     neofetch
     wl-clipboard
+    gdu
+    ripgrep
+    bat
+
+    google-chrome
+
+    # Languages
+    nodejs
+    pnpm
     gcc
     rustup
-    gdu
     jdk
+    python3
+    go
+
+    android-studio
+    android-tools
     pavucontrol
+    unzip
+    grimblast
   ];
 
   wayland.windowManager.hyprland = {
@@ -34,6 +47,7 @@
       "$terminal" = "kitty";
       "$fileManager" = "dolphin";
       "$menu" = "wofi --gtk-dark --show drun";
+      "$browser" = "firefox";
       bind = [
 	"$mod, 1, workspace, 1"
 	"$mod, 2, workspace, 2"
@@ -69,13 +83,16 @@
 	"$mod SHIFT, S, movetoworkspace, special:magic"
 	"$mod, mouse_down, workspace, e+1"
 	"$mod, mouse_up, workspace, e-1"
-	"$mod, ', exec, firefox"
+	"$mod, apostrophe, exec, $browser"
 	", Print, exec, grimblast copy area"
       ];
       bindm = [
 	"$mod, mouse:272, movewindow"
 	"$mod, mouse:273, resizewindow"
       ];
+      cursor = {
+	no_hardware_cursors = "true";
+      };
       misc = {
 	force_default_wallpaper = "0";
 	disable_hyprland_logo = "true";
@@ -87,7 +104,7 @@
       animations = {
 	enabled= "false";
       };
-      exec-once = "waybar";
+      exec-once = "waybar & mako";
     };
   };
 
@@ -96,9 +113,9 @@
     settings = {
       mainBar = {
 	layer = "top";
-	modules-left = ["hyprland/workspaces"];
-	modules-center = ["hyprland/window"];
-	modules-right = ["mpd" "pulseaudio" "network" "backlight" "battery" "clock" "tray"];
+	modules-left = ["hyprland/window"];
+	modules-center = ["hyprland/workspaces"];
+	modules-right = ["mpd" "pulseaudio" "bluetooth" "network" "backlight" "battery" "clock" "tray"];
 	"hyprland/window" = {
 	    max-length = 50;
 	};
@@ -111,6 +128,61 @@
 	};
       };
     };
+    style=''
+    * {
+	border: none;
+	border-radius: 0;
+	font-family: FontAwesome, Inter;
+	font-size: 13px;
+	min-height: 0;
+	color: #e3e4e5;
+	font-weight: 600;
+    }
+
+    window#waybar {
+	background: #090909;
+    }
+
+    tooltip {
+	background: #090909;
+	border: 1px solid rgba(100, 114, 125, 0.5);
+	border-radius: 6px;
+    }
+    tooltip label {
+	color: white;
+    }
+
+    #workspaces button {
+	padding: 0 5px;
+    }
+
+    /* hyprland uses .active instead of .focused */
+    #workspaces button.active, #workspaces button.focused {
+	background: #1e1f23;
+    }
+
+    #clock,
+    #battery,
+    #cpu,
+    #memory,
+    #disk,
+    #temperature,
+    #backlight,
+    #network,
+    #pulseaudio,
+    #wireplumber,
+    #custom-media,
+    #tray,
+    #mode,
+    #idle_inhibitor,
+    #scratchpad,
+    #power-profiles-daemon,
+    #mpd,
+    #bluetooth {
+	padding: 0 10px;
+	background-color: transparent;
+    }
+    '';
   };
 
   dconf = {
@@ -126,8 +198,12 @@
 
     shellAliases = {
       ll = "ls -l";
-      update = "sudo nixos-rebuild switch --flake ~/.dotfiles";
+      upgrade = "sudo nixos-rebuild switch --flake ~/.dotfiles";
+      update = "nix flake update ~/.dotfiles";
       windows = "systemctl reboot --boot-loader-entry=auto-windows";
+    };
+    sessionVariables = {
+      ANDROID_HOME = "/home/vigovlugt/Android/Sdk/";
     };
     # history = {
       # size = 10000;
@@ -139,6 +215,8 @@
       theme = "robbyrussell";
     };
   };
+
+  programs.zoxide.enable = true;
 
 
   # Install firefox.
@@ -164,8 +242,6 @@
   };
 
   programs.gh.enable = true;
-
-  manual.json.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
