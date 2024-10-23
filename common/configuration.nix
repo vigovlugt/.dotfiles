@@ -1,21 +1,11 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "vigo-desktop-nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant. Configure network proxy if necessary
+  # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant. Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
@@ -51,50 +41,50 @@
   services.displayManager.sddm.wayland.enable = true;
 
   /*
-  # Gnome does not wake up from sleep
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+    # Gnome does not wake up from sleep
+    # Enable the X11 windowing system.
+    services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+    # Enable the GNOME Desktop Environment.
+    services.xserver.displayManager.gdm.enable = true;
+    services.xserver.desktopManager.gnome.enable = true;
   */
 
   /*
-  services.gnome.gnome-keyring.enable = true;
-  programs.sway = {
+    services.gnome.gnome-keyring.enable = true;
+    programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
-  };
-  services.greetd = {
+    };
+    services.greetd = {
     enable = true;
     settings = {
       default_session = {
-	command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.sway}/bin/sway --unsupported-gpu'";
+           	command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.sway}/bin/sway --unsupported-gpu'";
       };
     };
-  };
+    };
 
-  environment.sessionVariables = {
+    environment.sessionVariables = {
     WLR_RENDERER = "vulkan";
-  };
-*/
+    };
+  */
 
   programs.hyprland.enable = true;
 
   /*
-  services.greetd = {
+    services.greetd = {
     enable = true;
     settings = {
       default_session = {
-	command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.hyprland}/bin/hyprland'";
+           	command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.hyprland}/bin/hyprland'";
       };
     };
-  };
+    };
 
-  programs.hyprland.enable = true;
+    programs.hyprland.enable = true;
 
-  environment.sessionVariables = {
+    environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     LIBVA_DRIVER_NAME = "nvidia";
     XDG_SESSION_TYPE = "wayland";
@@ -104,7 +94,7 @@
     XCURSOR_SIZE = "24";
     _JAVA_AWT_WM_NONREPARENTING = "1";
     ELECTRON_OZONE_PLATFORM_HINT = "auto";
-  };
+    };
   */
 
   environment.sessionVariables = {
@@ -132,7 +122,7 @@
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
     open = false;
@@ -177,7 +167,7 @@
     # Hopefully fix EPOS usb sometimes not working and stopping playback
     extraConfig.pipewire."custom" = {
       "context.properties" = {
-	"default.clock.quantum" = 2048;
+        "default.clock.quantum" = 2048;
         "default.clock.min-quantum" = 1024;
         "default.clock.max-quantum" = 4096;
       };
@@ -200,12 +190,12 @@
 
   security.sudo.extraRules = [
     {
-      users = ["vigovlugt"];
+      users = [ "vigovlugt" ];
       commands = [
         {
-	  command = "ALL";
-	  options = [ "NOPASSWD" ];
-	}
+          command = "ALL";
+          options = [ "NOPASSWD" ];
+        }
       ];
     }
   ];
@@ -230,7 +220,7 @@
     acceleration = "cuda";
   };
 
-  services.tailscale.enable = true;
+  # services.tailscale.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -241,12 +231,11 @@
     wofi
     waybar
     mako
-    libnotify
     # keyd
   ];
 
   fonts.packages = with pkgs; [
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
     font-awesome
     inter
   ];
