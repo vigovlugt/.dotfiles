@@ -216,7 +216,7 @@
   programs.nix-ld.enable = true;
 
   services.ollama = {
-    enable = true;
+    enable = false;
     acceleration = "cuda";
   };
 

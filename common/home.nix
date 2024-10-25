@@ -20,9 +20,8 @@
     gdu
     ripgrep
     bat
-    networkmanager-applet
-
     google-chrome
+    slack
 
     # Languages
     nodejs
@@ -38,6 +37,7 @@
     jetbrains.rider
     android-studio
     android-tools
+    azure-cli
     pavucontrol
     unzip
     grimblast
