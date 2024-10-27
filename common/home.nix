@@ -38,7 +38,7 @@
     jetbrains.rider
     android-studio
     android-tools
-    azure-cli
+    # azure-cli
     pavucontrol
     unzip
     grimblast
@@ -211,7 +211,7 @@
     shellAliases = {
       ll = "ls -l";
       upgrade = "sudo nixos-rebuild switch --flake ~/.dotfiles";
-      update = "nix flake update ~/.dotfiles";
+      update = "nix flake update --flake ~/.dotfiles";
       windows = "systemctl reboot --boot-loader-entry=auto-windows";
     };
     sessionVariables = {
