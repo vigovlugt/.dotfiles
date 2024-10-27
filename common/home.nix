@@ -19,6 +19,7 @@
     wl-clipboard
     gdu
     ripgrep
+    fd
     bat
     google-chrome
     slack
