@@ -35,6 +35,11 @@
     dotnet-sdk_8
 
     omnisharp-roslyn
+    roslyn-ls
+    vue-language-server
+    lua-language-server
+    typescript-language-server
+
     jetbrains.rider
     android-studio
     android-tools
