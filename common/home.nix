@@ -39,6 +39,8 @@
     vue-language-server
     lua-language-server
     typescript-language-server
+    prettierd
+    eslint_d
 
     jetbrains.rider
     android-studio
@@ -231,6 +233,28 @@
       plugins = [ "git" ];
       theme = "robbyrussell";
     };
+  };
+
+  programs.tmux = {
+    enable = true;
+    extraConfig = ''unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix
+
+set-window-option -g mode-keys vi
+bind -T copy-mode-vi v send-keys -X begin-selection
+bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
+
+bind -r ^ last-window
+bind -r k select-pane -U
+bind -r j select-pane -D
+bind -r h select-pane -L
+bind -r l select-pane -R
+
+bind  c  new-window      -c "#{pane_current_path}"
+bind  %  split-window -h -c "#{pane_current_path}"
+bind '"' split-window -v -c "#{pane_current_path}"
+'';
   };
 
   programs.zoxide.enable = true;
