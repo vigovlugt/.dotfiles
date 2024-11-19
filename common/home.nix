@@ -49,6 +49,7 @@
     pavucontrol
     unzip
     grimblast
+    nmap
   ];
 
   wayland.windowManager.hyprland = {
@@ -254,6 +255,9 @@ bind -r l select-pane -R
 bind  c  new-window      -c "#{pane_current_path}"
 bind  %  split-window -h -c "#{pane_current_path}"
 bind '"' split-window -v -c "#{pane_current_path}"
+
+set -g default-terminal "tmux-256color"
+set -ag terminal-overrides ",xterm-256color:RGB"
 '';
   };
 

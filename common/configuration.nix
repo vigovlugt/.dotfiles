@@ -231,7 +231,7 @@
     wofi
     waybar
     mako
-    # keyd
+    keyd
   ];
 
   fonts.packages = with pkgs; [
@@ -240,7 +240,7 @@
     inter
   ];
 
-  #services.keyd = {
+  # services.keyd = {
   #  enable = true;
   #};
 
