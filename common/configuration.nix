@@ -146,7 +146,7 @@
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
 
   # Enable sound with pipewire.
@@ -239,6 +239,15 @@
     font-awesome
     inter
   ];
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "dotnet-core-combined"
+    "dotnet-sdk-6.0.428"
+    "dotnet-sdk-wrapped-6.0.428"
+    "dotnet-sdk-7.0.410"
+    "dotnet-sdk-wrapped-7.0.410"
+  ];
+
 
   # services.keyd = {
   #  enable = true;
