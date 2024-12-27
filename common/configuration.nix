@@ -220,7 +220,7 @@
     acceleration = "cuda";
   };
 
-  # services.tailscale.enable = true;
+  services.tailscale.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

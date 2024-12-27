@@ -34,6 +34,7 @@
     go
     dotnet-sdk_8
 
+    uv
     omnisharp-roslyn
     roslyn-ls
     vue-language-server
