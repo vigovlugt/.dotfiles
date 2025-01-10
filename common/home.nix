@@ -11,6 +11,7 @@
     discord
     spotify
     kitty
+    ghostty
     vscode
     nixd
     nixpkgs-fmt
