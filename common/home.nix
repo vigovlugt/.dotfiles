@@ -23,7 +23,14 @@
     fd
     bat
     google-chrome
+    qbittorrent
+    vlc
     slack
+    bombardier
+    air
+    websocat
+    bun
+    k6
 
     # Languages
     nodejs
@@ -35,6 +42,9 @@
     go
     dotnet-sdk_8
 
+    gopls
+    delve
+    golangci-lint
     uv
     omnisharp-roslyn
     roslyn-ls
@@ -44,9 +54,9 @@
     prettierd
     eslint_d
 
-    jetbrains.rider
-    android-studio
-    android-tools
+    # jetbrains.rider
+    # android-studio
+    # android-tools
     # azure-cli
     pavucontrol
     unzip
