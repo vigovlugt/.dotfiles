@@ -2,8 +2,11 @@
 
 {
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    timeout = 0;
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
 
   # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant. Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -262,6 +265,9 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  systemd.services.NetworkManager-wait-online.enable = false;
+  systemd.services.docker.enable = false;
 
   # List services that you want to enable:
 

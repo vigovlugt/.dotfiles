@@ -9,6 +9,7 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     discord
+    vesktop
     spotify
     kitty
     ghostty
@@ -31,6 +32,7 @@
     websocat
     bun
     k6
+    brightnessctl
 
     # Languages
     nodejs
@@ -68,8 +70,8 @@
     enable = true;
 
     settings = {
-      "$mod" = "SUPER";
-      "$terminal" = "kitty";
+      "$mod" = "ALT";
+      "$terminal" = "ghostty";
       "$fileManager" = "dolphin";
       "$menu" = "wofi --gtk-dark --show drun";
       "$browser" = "firefox";
@@ -95,7 +97,7 @@
         "$mod SHIFT, 9, movetoworkspace, 9"
         "$mod SHIFT, 0, movetoworkspace, 0"
         "$mod, Return, exec, $terminal"
-        "$mod SHIFT, Q, killactive,"
+        "$mod, Q, killactive,"
         "$mod, E, exec, $fileManager"
         "$mod SHIFT, Space, togglefloating,"
         "$mod, Space, exec, $menu"
@@ -111,17 +113,18 @@
         "$mod, mouse_down, workspace, e+1"
         "$mod, mouse_up, workspace, e-1"
         "$mod, apostrophe, exec, $browser"
+        "$mod, L, exec, loginctl lock-session"
         ", Print, exec, grimblast copy area"
       ];
       bindm = [
         "$mod, mouse:272, movewindow"
         "$mod, mouse:273, resizewindow"
       ];
-      general = {
-        gaps_in = 0;
-        gaps_out = 0;
-        border_size = 0;
-      };
+      # general = {
+      #   gaps_in = 0;
+      #   gaps_out = 0;
+      #   border_size = 0;
+      # };
       cursor = {
         no_hardware_cursors = "true";
       };
@@ -130,13 +133,48 @@
         disable_hyprland_logo = "true";
       };
       # windowrulev2 = "suppressevent maximize, class:.*";
-      dwindle = {
-        preserve_split = "true";
+      # dwindle = {
+      #   preserve_split = "true";
+      # };
+      # animations = {
+      #   enabled = "false";
+      # };
+      exec-once = [ "waybar" "mako" "[workspace 1 silent] firefox" "[workspace 2 silent] discord" ];
+    };
+  };
+
+  programs.hyprlock.enable = true;
+
+  services.hypridle = {
+    enable = true;
+
+    settings = {
+      general = {
+        lock_cmd = "pidof hyprlock || hyprlock"; # avoid starting multiple hyprlock instances.
+        after_sleep_cmd = "hyprctl dispatch dpms on";  # to avoid having to press a key twice to turn on the display.
+        before_sleep_cmd = "loginctl lock-session";
       };
-      animations = {
-        enabled = "false";
-      };
-      exec-once = [ "waybar" "mako" ];
+
+      listener = [
+        {
+          timeout = 150;
+          on-timeout = "brightnessctl -s set 10";
+          on-resume = "brightnessctl -r";
+        }
+        {
+          timeout = 300;
+          on-timeout = "loginctl lock-session";
+        }
+        {
+          timeout = 330;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+        {
+          timeout = 1800;
+          on-timeout = "systemctl suspend";
+        }
+      ];
     };
   };
 
