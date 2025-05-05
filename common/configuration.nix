@@ -33,10 +33,12 @@
     LC_TIME = "nl_NL.UTF-8";
   };
 
-  swapDevices = [{
-    device = "/swapfile";
-    size = 8 * 1024; # 8GB
-  }];
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 8 * 1024; # 8GB
+    }
+  ];
 
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
@@ -135,7 +137,7 @@
 
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
     # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
+    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
     # of just the bare essentials.
     # Default = false, but issues with wakeup hopefully fixed by true
     powerManagement.enable = true;
@@ -187,7 +189,13 @@
   users.users.vigovlugt = {
     isNormalUser = true;
     description = "Vigo Vlugt";
-    extraGroups = [ "networkmanager" "wheel" "input" "video" "docker" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "input"
+      "video"
+      "docker"
+    ];
     packages = with pkgs; [ ];
   };
 
@@ -253,7 +261,6 @@
     "dotnet-sdk-wrapped-7.0.410"
   ];
 
-
   # services.keyd = {
   #  enable = true;
   #};
@@ -291,5 +298,8 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 }

@@ -55,6 +55,7 @@
     typescript-language-server
     prettierd
     eslint_d
+    pkgs.nixfmt-rfc-style
 
     # jetbrains.rider
     # android-studio
@@ -139,7 +140,12 @@
       # animations = {
       #   enabled = "false";
       # };
-      exec-once = [ "waybar" "mako" "[workspace 1 silent] firefox" "[workspace 2 silent] discord" ];
+      exec-once = [
+        "waybar"
+        "mako"
+        "[workspace 1 silent] firefox"
+        "[workspace 2 silent] discord"
+      ];
     };
   };
 
@@ -151,7 +157,7 @@
     settings = {
       general = {
         lock_cmd = "pidof hyprlock || hyprlock"; # avoid starting multiple hyprlock instances.
-        after_sleep_cmd = "hyprctl dispatch dpms on";  # to avoid having to press a key twice to turn on the display.
+        after_sleep_cmd = "hyprctl dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
         before_sleep_cmd = "loginctl lock-session";
       };
 
@@ -185,13 +191,28 @@
         layer = "top";
         modules-left = [ "hyprland/window" ];
         modules-center = [ "hyprland/workspaces" ];
-        modules-right = [ "mpd" "pulseaudio" "bluetooth" "network" "backlight" "battery" "clock" "tray" ];
+        modules-right = [
+          "mpd"
+          "pulseaudio"
+          "bluetooth"
+          "network"
+          "backlight"
+          "battery"
+          "clock"
+          "tray"
+        ];
         "hyprland/window" = {
           max-length = 50;
         };
         battery = {
           format = "{capacity}% {icon}";
-          format-icons = [ "" "" "" "" "" ];
+          format-icons = [
+            ""
+            ""
+            ""
+            ""
+            ""
+          ];
         };
         clock = {
           format-alt = "{:%a, %d. %b  %H:%M}";
@@ -288,30 +309,31 @@
 
   programs.tmux = {
     enable = true;
-    extraConfig = ''unbind C-b
-set-option -g prefix C-a
-bind-key C-a send-prefix
+    extraConfig = ''
+      unbind C-b
+      set-option -g prefix C-a
+      bind-key C-a send-prefix
 
-set -g base-index 1
-setw -g pane-base-index 1
+      set -g base-index 1
+      setw -g pane-base-index 1
 
-set-window-option -g mode-keys vi
-bind -T copy-mode-vi v send-keys -X begin-selection
-bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
+      set-window-option -g mode-keys vi
+      bind -T copy-mode-vi v send-keys -X begin-selection
+      bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
 
-bind -r ^ last-window
-bind -r k select-pane -U
-bind -r j select-pane -D
-bind -r h select-pane -L
-bind -r l select-pane -R
+      bind -r ^ last-window
+      bind -r k select-pane -U
+      bind -r j select-pane -D
+      bind -r h select-pane -L
+      bind -r l select-pane -R
 
-bind  c  new-window      -c "#{pane_current_path}"
-bind  %  split-window -h -c "#{pane_current_path}"
-bind '"' split-window -v -c "#{pane_current_path}"
+      bind  c  new-window      -c "#{pane_current_path}"
+      bind  %  split-window -h -c "#{pane_current_path}"
+      bind '"' split-window -v -c "#{pane_current_path}"
 
-set -g default-terminal "tmux-256color"
-set -ag terminal-overrides ",xterm-256color:RGB"
-'';
+      set -g default-terminal "tmux-256color"
+      set -ag terminal-overrides ",xterm-256color:RGB"
+    '';
   };
 
   programs.zoxide.enable = true;
@@ -333,8 +355,12 @@ set -ag terminal-overrides ",xterm-256color:RGB"
     userEmail = "vigovlugt@gmail.com";
     lfs.enable = true;
     extraConfig = {
-      push = { autoSetupRemote = true; };
-      init = { defaultBranch = "main"; };
+      push = {
+        autoSetupRemote = true;
+      };
+      init = {
+        defaultBranch = "main";
+      };
     };
   };
 
