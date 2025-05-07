@@ -14,6 +14,7 @@
     kitty
     ghostty
     vscode
+    code-cursor
     nixd
     nixpkgs-fmt
     htop
