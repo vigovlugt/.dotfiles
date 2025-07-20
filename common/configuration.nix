@@ -151,7 +151,7 @@
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
   # Enable sound with pipewire.
@@ -274,7 +274,7 @@
   # };
 
   systemd.services.NetworkManager-wait-online.enable = false;
-  systemd.services.docker.enable = false;
+  # systemd.services.docker.enable = false;
 
   # List services that you want to enable:
 

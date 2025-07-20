@@ -18,6 +18,7 @@
     nixd
     nixpkgs-fmt
     htop
+    btop
     neofetch
     wl-clipboard
     gdu
@@ -34,6 +35,9 @@
     bun
     k6
     brightnessctl
+    jellyfin-media-player
+    pulumi
+    pulumiPackages.pulumi-nodejs
 
     # Languages
     nodejs
@@ -43,6 +47,7 @@
     jdk
     python3
     go
+    zig
     dotnet-sdk_8
 
     gopls
@@ -57,6 +62,7 @@
     prettierd
     eslint_d
     pkgs.nixfmt-rfc-style
+    sqlite
 
     # jetbrains.rider
     # android-studio
@@ -153,7 +159,7 @@
   programs.hyprlock.enable = true;
 
   services.hypridle = {
-    enable = true;
+    # enable = true;
 
     settings = {
       general = {
