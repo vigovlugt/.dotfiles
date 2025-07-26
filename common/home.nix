@@ -63,6 +63,12 @@
     eslint_d
     pkgs.nixfmt-rfc-style
     sqlite
+    protobuf
+    protoc-gen-go
+    protoc-gen-js
+    protoc-gen-go-grpc
+    grpcurl
+    gnumake
 
     # jetbrains.rider
     # android-studio
