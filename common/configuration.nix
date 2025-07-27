@@ -41,7 +41,7 @@
   ];
 
   services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
   services.displayManager.sddm.wayland.enable = true;
 
@@ -76,16 +76,16 @@
   */
 
   programs.hyprland.enable = true;
-
-  /*
-    services.greetd = {
+  services.greetd = {
     enable = true;
     settings = {
       default_session = {
-           	command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.hyprland}/bin/hyprland'";
+       	command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.hyprland}/bin/hyprland'";
       };
     };
-    };
+  };
+
+  /*
 
     programs.hyprland.enable = true;
 
@@ -215,7 +215,11 @@
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    liveRestore = false;
+  };
+  
 
   programs.steam = {
     enable = true;

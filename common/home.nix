@@ -84,7 +84,7 @@
     enable = true;
 
     settings = {
-      "$mod" = "ALT";
+      "$mod" = "SUPER";
       "$terminal" = "ghostty";
       "$fileManager" = "dolphin";
       "$menu" = "wofi --gtk-dark --show drun";
@@ -134,13 +134,16 @@
         "$mod, mouse:272, movewindow"
         "$mod, mouse:273, resizewindow"
       ];
-      # general = {
-      #   gaps_in = 0;
-      #   gaps_out = 0;
-      #   border_size = 0;
-      # };
+      general = {
+        gaps_in = 0;
+        gaps_out = 0;
+        border_size = 0;
+      };
       cursor = {
         no_hardware_cursors = "true";
+      };
+      input = {
+        force_no_accel = 1;
       };
       misc = {
         force_default_wallpaper = "0";
@@ -150,9 +153,9 @@
       # dwindle = {
       #   preserve_split = "true";
       # };
-      # animations = {
-      #   enabled = "false";
-      # };
+      animations = {
+        enabled = "false";
+      };
       exec-once = [
         "waybar"
         "mako"
@@ -287,6 +290,20 @@
       	background-color: transparent;
           }
     '';
+  };
+
+  services.mako = {
+    enable = true;
+    settings = {
+        actions = true;
+        border-radius = 6;
+        border-size = 1;
+        border-color = "#23252a";
+        background-color = "#101012";
+        default-timeout = 10000;
+        font = "FontAwesome, Inter";
+        padding = "10,12";
+    };
   };
 
   dconf = {
