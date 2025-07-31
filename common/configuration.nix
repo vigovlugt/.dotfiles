@@ -80,13 +80,12 @@
     enable = true;
     settings = {
       default_session = {
-       	command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.hyprland}/bin/hyprland'";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.hyprland}/bin/hyprland'";
       };
     };
   };
 
   /*
-
     programs.hyprland.enable = true;
 
     environment.sessionVariables = {
@@ -219,7 +218,6 @@
     enable = true;
     liveRestore = false;
   };
-  
 
   programs.steam = {
     enable = true;

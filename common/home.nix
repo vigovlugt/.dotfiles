@@ -138,6 +138,7 @@
         gaps_in = 0;
         gaps_out = 0;
         border_size = 0;
+        layout = "master";
       };
       cursor = {
         no_hardware_cursors = "true";
@@ -295,14 +296,14 @@
   services.mako = {
     enable = true;
     settings = {
-        actions = true;
-        border-radius = 6;
-        border-size = 1;
-        border-color = "#23252a";
-        background-color = "#101012";
-        default-timeout = 10000;
-        font = "FontAwesome, Inter";
-        padding = "10,12";
+      actions = true;
+      border-radius = 6;
+      border-size = 1;
+      border-color = "#23252a";
+      background-color = "#101012";
+      default-timeout = 10000;
+      font = "FontAwesome, Inter";
+      padding = "10,12";
     };
   };
 
