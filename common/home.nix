@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the
@@ -49,6 +49,8 @@
     go
     zig
     dotnet-sdk_8
+    nil
+    nixd
 
     gopls
     delve
@@ -169,33 +171,20 @@
   programs.hyprlock.enable = true;
 
   services.hypridle = {
-    # enable = true;
+    enable = true;
 
     settings = {
       general = {
-        lock_cmd = "pidof hyprlock || hyprlock"; # avoid starting multiple hyprlock instances.
+        lock_cmd = "pidof hyprlock || hyprlock & systemctl suspend"; # avoid starting multiple hyprlock instances.
+        # echo GPP0 > /proc/acpi/wakeup && echo GPP8 > /proc/acpi/wakeup
         after_sleep_cmd = "hyprctl dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
         before_sleep_cmd = "loginctl lock-session";
       };
 
       listener = [
         {
-          timeout = 150;
-          on-timeout = "brightnessctl -s set 10";
-          on-resume = "brightnessctl -r";
-        }
-        {
           timeout = 300;
           on-timeout = "loginctl lock-session";
-        }
-        {
-          timeout = 330;
-          on-timeout = "hyprctl dispatch dpms off";
-          on-resume = "hyprctl dispatch dpms on";
-        }
-        {
-          timeout = 1800;
-          on-timeout = "systemctl suspend";
         }
       ];
     };
@@ -323,6 +312,7 @@
       upgrade = "sudo nixos-rebuild switch --flake ~/.dotfiles";
       update = "nix flake update --flake ~/.dotfiles";
       windows = "systemctl reboot --boot-loader-entry=auto-windows";
+      config = "cursor --workspace ~/.dotfiles &";
     };
     sessionVariables = {
       ANDROID_HOME = "/home/vigovlugt/Android/Sdk/";
