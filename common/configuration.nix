@@ -40,66 +40,15 @@
     }
   ];
 
-  services.xserver.enable = true;
-  # services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-
-  /*
-    # Gnome does not wake up from sleep
-    # Enable the X11 windowing system.
-    services.xserver.enable = true;
-
-    # Enable the GNOME Desktop Environment.
-    services.xserver.displayManager.gdm.enable = true;
-    services.xserver.desktopManager.gnome.enable = true;
-  */
-
-  /*
-    services.gnome.gnome-keyring.enable = true;
-    programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-    };
-    services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-           	command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.sway}/bin/sway --unsupported-gpu'";
-      };
-    };
-    };
-
-    environment.sessionVariables = {
-    WLR_RENDERER = "vulkan";
-    };
-  */
-
   programs.hyprland.enable = true;
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.hyprland}/bin/hyprland'";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.hyprland}/bin/hyprland'";
       };
     };
   };
-
-  /*
-    programs.hyprland.enable = true;
-
-    environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    LIBVA_DRIVER_NAME = "nvidia";
-    XDG_SESSION_TYPE = "wayland";
-    GBM_BACKEND = "nvidia-drm";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    WLR_NO_HARDWARE_CURSORS = "1";
-    XCURSOR_SIZE = "24";
-    _JAVA_AWT_WM_NONREPARENTING = "1";
-    ELECTRON_OZONE_PLATFORM_HINT = "auto";
-    };
-  */
 
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "nvidia";
@@ -124,9 +73,6 @@
   hardware.graphics = {
     enable = true;
   };
-
-  # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
     open = false;
@@ -219,11 +165,17 @@
     liveRestore = false;
   };
 
+  programs.gamescope = {
+    enable = true;
+    capSysNice = true;
+  };
+
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+    gamescopeSession.enable = true;
   };
 
   programs.nix-ld.enable = true;
@@ -235,7 +187,16 @@
 
   services.tailscale.enable = true;
 
-  services.flatpak.enable = true;
+  programs.nh = {
+    enable = true;
+    flake = "/home/vigovlugt/.dotfiles";
+  };
+
+  services.xserver.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -276,7 +237,7 @@
   # };
 
   systemd.services.NetworkManager-wait-online.enable = false;
-  # systemd.services.docker.enable = false;
+  systemd.services.docker.enable = false;
 
   # List services that you want to enable:
 

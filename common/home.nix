@@ -80,6 +80,7 @@
     unzip
     grimblast
     nmap
+    kdePackages.dolphin
   ];
 
   wayland.windowManager.hyprland = {
@@ -168,6 +169,33 @@
     };
   };
 
+  # home.pointerCursor = {
+  #   gtk.enable = true;
+  #   x11.enable = true;
+  #   package = pkgs.bibata-cursors;
+  #   name = "Bibata-Modern-Ice";
+  #   size = 16;
+  # };
+
+  # gtk = {
+  #   enable = true;
+
+  #   theme = {
+  #     package = pkgs.flat-remix-gtk;
+  #     name = "Flat-Remix-GTK-Grey-Darkest";
+  #   };
+
+  #   iconTheme = {
+  #     package = pkgs.adwaita-icon-theme;
+  #     name = "Adwaita";
+  #   };
+
+  #   font = {
+  #     name = "Sans";
+  #     size = 11;
+  #   };
+  # };
+
   programs.hyprlock.enable = true;
 
   services.hypridle = {
@@ -176,7 +204,6 @@
     settings = {
       general = {
         lock_cmd = "pidof hyprlock || hyprlock & systemctl suspend"; # avoid starting multiple hyprlock instances.
-        # echo GPP0 > /proc/acpi/wakeup && echo GPP8 > /proc/acpi/wakeup
         after_sleep_cmd = "hyprctl dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
         before_sleep_cmd = "loginctl lock-session";
       };
