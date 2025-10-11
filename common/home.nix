@@ -35,7 +35,7 @@
     bun
     k6
     brightnessctl
-    jellyfin-media-player
+    # jellyfin-media-player
     pulumi
     pulumiPackages.pulumi-nodejs
 
@@ -48,7 +48,7 @@
     python3
     go
     zig
-    dotnet-sdk_8
+    # dotnet-sdk_8
     nil
     nixd
 
@@ -339,7 +339,11 @@
       upgrade = "sudo nixos-rebuild switch --flake ~/.dotfiles";
       update = "nix flake update --flake ~/.dotfiles";
       windows = "systemctl reboot --boot-loader-entry=auto-windows";
-      config = "cursor --workspace ~/.dotfiles &";
+      config = "cursor ~/.dotfiles && exit";
+      jellyfin = "ssh raspberrypi -t 'cd ~/media-server && docker compose down && docker compose up -d jellyfin'";
+      radarr = "ssh raspberrypi -t 'cd ~/media-server && docker compose down && docker compose up -d radarr qbittorrent prowlarr'";
+      sonarr = "ssh raspberrypi -t 'cd ~/media-server && docker compose down && docker compose up -d sonarr qbittorrent prowlarr'";
+      nixdev = "nix develop --command $SHELL";
     };
     sessionVariables = {
       ANDROID_HOME = "/home/vigovlugt/Android/Sdk/";
@@ -394,7 +398,6 @@
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
-    extraLuaConfig = builtins.readFile ./init.lua;
   };
 
   programs.git = {
