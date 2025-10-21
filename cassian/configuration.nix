@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  networking.hostName = "vigo-desktop-nixos";
+  networking.hostName = "cassian";
 
   # Disable ACPI wake-up for GPP0 and GPP8 to prevent unwanted wake-ups
   systemd.services.disable-acpi-wakeup = {

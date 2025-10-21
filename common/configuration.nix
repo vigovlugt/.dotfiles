@@ -36,7 +36,7 @@
   swapDevices = [
     {
       device = "/swapfile";
-      size = 8 * 1024; # 8GB
+      size = 16 * 1024; # 16GB
     }
   ];
 
@@ -47,6 +47,28 @@
       default_session = {
         command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.hyprland}/bin/hyprland'";
       };
+    };
+  };
+
+  services.teamviewer.enable = true;
+
+  services.music-assistant = {
+    enable = true;
+    providers = [
+      "chromecast"
+      "spotify"
+    ];
+  };
+  services.home-assistant = {
+    enable = true;
+    extraComponents = [
+      "google_translate" # TTS
+      "met" # weather
+      "isal" # better compression
+      "music_assistant"
+    ];
+    config = {
+      default_config = { };
     };
   };
 

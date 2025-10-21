@@ -14,6 +14,7 @@
     kitty
     ghostty
     vscode
+    zed-editor
     code-cursor
     nixd
     nixpkgs-fmt

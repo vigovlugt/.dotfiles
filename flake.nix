@@ -13,12 +13,12 @@
     inputs@{ nixpkgs, home-manager, ... }:
     {
       nixosConfigurations = {
-        vigo-desktop-nixos = nixpkgs.lib.nixosSystem {
+        cassian = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./common/configuration.nix
-            ./desktop/hardware-configuration.nix
-            ./desktop/configuration.nix
+            ./cassian/hardware-configuration.nix
+            ./cassian/configuration.nix
             home-manager.nixosModules.home-manager
             {
               home-manager = {
@@ -26,7 +26,7 @@
                 useUserPackages = true;
                 users.vigovlugt = inputs.nixpkgs.lib.mkMerge [
                   (import ./common/home.nix)
-                  (import ./desktop/home.nix)
+                  (import ./cassian/home.nix)
                 ];
               };
             }
@@ -55,11 +55,11 @@
       };
 
       homeConfigurations = {
-        "vigovlugt@vigo-desktop-nixos" = home-manager.lib.homeManagerConfiguration {
+        "vigovlugt@cassian" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           modules = [
             ./common/home.nix
-            ./desktop/home.nix
+            ./cassian/home.nix
           ];
         };
       };
