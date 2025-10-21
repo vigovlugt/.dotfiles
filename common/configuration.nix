@@ -40,38 +40,6 @@
     }
   ];
 
-  programs.hyprland.enable = true;
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.hyprland}/bin/hyprland'";
-      };
-    };
-  };
-
-  services.teamviewer.enable = true;
-
-  services.music-assistant = {
-    enable = true;
-    providers = [
-      "chromecast"
-      "spotify"
-    ];
-  };
-  services.home-assistant = {
-    enable = true;
-    extraComponents = [
-      "google_translate" # TTS
-      "met" # weather
-      "isal" # better compression
-      "music_assistant"
-    ];
-    config = {
-      default_config = { };
-    };
-  };
-
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = "nvidia";
     XDG_SESSION_TYPE = "wayland";
@@ -182,11 +150,6 @@
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
-  virtualisation.docker = {
-    enable = true;
-    liveRestore = false;
-  };
-
   programs.gamescope = {
     enable = true;
     capSysNice = true;
@@ -202,6 +165,13 @@
 
   programs.nix-ld.enable = true;
 
+  programs.hyprland.enable = true;
+
+  virtualisation.docker = {
+    enable = true;
+    liveRestore = false;
+  };
+
   services.ollama = {
     enable = false;
     acceleration = "cuda";
@@ -214,14 +184,43 @@
     flake = "/home/vigovlugt/.dotfiles";
   };
 
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd '${pkgs.hyprland}/bin/hyprland'";
+      };
+    };
+  };
+
+  services.teamviewer.enable = true;
+
+  services.music-assistant = {
+    enable = true;
+    providers = [
+      "chromecast"
+      "spotify"
+    ];
+  };
+  services.home-assistant = {
+    enable = true;
+    extraComponents = [
+      "google_translate" # TTS
+      "met" # weather
+      "isal" # better compression
+      "music_assistant"
+    ];
+    config = {
+      default_config = { };
+    };
+  };
+
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     wget
     git
@@ -229,7 +228,6 @@
     wofi
     waybar
     mako
-    keyd
   ];
 
   fonts.packages = with pkgs; [
@@ -238,34 +236,9 @@
     inter
   ];
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "qtwebengine-5.15.19"
-  ];
-
-  # services.keyd = {
-  #  enable = true;
-  #};
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   systemd.services.NetworkManager-wait-online.enable = false;
   systemd.services.docker.enable = false;
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
   networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
@@ -276,7 +249,6 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   nix.settings.experimental-features = [
