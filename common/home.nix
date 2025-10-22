@@ -337,7 +337,7 @@
 
     shellAliases = {
       ll = "ls -l";
-      upgrade = "sudo nixos-rebuild switch --flake ~/.dotfiles";
+      upgrade = "nixos-rebuild switch --flake ~/.dotfiles --sudo";
       update = "nix flake update --flake ~/.dotfiles";
       windows = "systemctl reboot --boot-loader-entry=auto-windows";
       config = "cursor ~/.dotfiles && exit";

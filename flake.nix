@@ -7,8 +7,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    galactus.url = "git+ssh://git@github.com/vigovlugt/galactus.git?ref=main";
-    # galactus.url = "github:vigovlugt/galactus?ref=main";
+    galactus.url = "git+ssh://git@github.com/vigovlugt/galactus.git"; # nix flake update galactus
 
   };
 
@@ -28,7 +27,7 @@
             ./cassian/hardware-configuration.nix
             ./cassian/configuration.nix
             home-manager.nixosModules.home-manager
-            galactus.nixosModules.defaualt
+            galactus.nixosModules.default
             {
               home-manager = {
                 useGlobalPkgs = true;
