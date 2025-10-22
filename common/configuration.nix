@@ -202,6 +202,8 @@
       "spotify"
     ];
   };
+  systemd.services.music-assistant.serviceConfig.Restart = "on-failure";
+  systemd.services.music-assistant.serviceConfig.RestartSec = 5;
   services.home-assistant = {
     enable = true;
     extraComponents = [
@@ -214,6 +216,7 @@
       default_config = { };
     };
   };
+  services.galactus.enable = true;
 
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
