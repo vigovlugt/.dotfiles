@@ -130,6 +130,7 @@
       "input"
       "video"
       "docker"
+      "libvirtd"
     ];
     packages = with pkgs; [ ];
   };

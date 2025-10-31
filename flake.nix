@@ -62,14 +62,38 @@
         };
       };
 
-      homeConfigurations = {
-        "vigovlugt@cassian" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          modules = [
-            ./common/home.nix
-            ./cassian/home.nix
-          ];
-        };
+      anakin = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./anakin/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.vigovlugt = inputs.nixpkgs.lib.mkMerge [
+                (import ./anakin/home.nix)
+              ];
+            };
+          }
+        ];
+      };
+      anakin-iso = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+          ./anakin/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.vigovlugt = inputs.nixpkgs.lib.mkMerge [
+                (import ./anakin/home.nix)
+              ];
+            };
+          }
+        ];
       };
     };
 }
