@@ -36,9 +36,13 @@
     bun
     k6
     brightnessctl
+    hyprpicker
     # jellyfin-media-player
     pulumi
     pulumiPackages.pulumi-nodejs
+    arduino-ide
+    arduino-cli
+    arduino
 
     # Languages
     nodejs
@@ -93,6 +97,7 @@
       "$fileManager" = "dolphin";
       "$menu" = "wofi --gtk-dark --show drun";
       "$browser" = "firefox";
+      "$colorpicker" = "hyprpicker --autocopy";
       bind = [
         "$mod, 1, workspace, 1"
         "$mod, 2, workspace, 2"
@@ -133,6 +138,7 @@
         "$mod, apostrophe, exec, $browser"
         "$mod, L, exec, loginctl lock-session"
         ", Print, exec, grimblast copy area"
+        "$mod SHIFT, C, exec, $colorpicker"
       ];
       bindm = [
         "$mod, mouse:272, movewindow"
@@ -200,7 +206,8 @@
   programs.hyprlock.enable = true;
 
   services.hypridle = {
-    enable = true;
+    # enable = true;
+    enable = false;
 
     settings = {
       general = {

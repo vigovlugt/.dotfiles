@@ -216,13 +216,43 @@
       default_config = { };
     };
   };
-  services.galactus.enable = true;
+  services.galactus = {
+    enable = true;
+    settings = {
+      jukebox.album_map = {
+        "04 A3 5C 1B 2F 88 80" = "spotify:album:5WulAOx9ilWy1h8UGZ1gkI"; # Deadbeat
+        "04 A3 5C 1B 2F 88 81" = "spotify:album:5vkqYmiPBYLaalcmjujWxK"; # In rainbows
+      };
+    };
+  };
 
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
+
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+    allowInterfaces = [ "eno1" ];
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
+  };
 
   environment.systemPackages = with pkgs; [
     wget

@@ -8,7 +8,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     galactus.url = "git+ssh://git@github.com/vigovlugt/galactus.git"; # nix flake update galactus
-
   };
 
   outputs =

@@ -24,11 +24,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1761167392,
-        "narHash": "sha256-RFzyCPF47WaNcnuPJDeuXOpaUq3OMRVDvuz2IKtalJk=",
+        "lastModified": 1761248810,
+        "narHash": "sha256-arby+BNrTK6GJMRZt439iTmPH/ZNRqzQb7CIMdOvzg0=",
         "ref": "refs/heads/main",
-        "rev": "43b448dab32fd8edb7b7a69c5dce6b266b3c1c81",
-        "revCount": 13,
+        "rev": "29828d4b3a7a50fcf9c56f69d0ff57bd89789d3b",
+        "revCount": 15,
         "type": "git",
         "url": "ssh://git@github.com/vigovlugt/galactus.git"
       },
