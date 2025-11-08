@@ -46,6 +46,7 @@
             ./common/configuration.nix
             ./laptop/hardware-configuration.nix
             ./laptop/configuration.nix
+            galactus.nixosModules.default
             home-manager.nixosModules.home-manager
             {
               home-manager = {
