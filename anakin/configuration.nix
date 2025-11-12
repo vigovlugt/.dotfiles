@@ -43,6 +43,46 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
+
+  services.tailscale.enable = true;
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+    allowInterfaces = [ "eno1" ];
+  };
+
+  services.music-assistant = {
+    enable = true;
+    providers = [
+      "chromecast"
+      "spotify"
+    ];
+  };
+  systemd.services.music-assistant.serviceConfig.Restart = "on-failure";
+  systemd.services.music-assistant.serviceConfig.RestartSec = 5;
+  services.home-assistant = {
+    enable = true;
+    extraComponents = [
+      "google_translate" # TTS
+      "met" # weather
+      "isal" # better compression
+      "music_assistant"
+      "samsungtv"
+      "cast"
+    ];
+    config = {
+      default_config = { };
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     vim
     wget

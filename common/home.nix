@@ -12,7 +12,6 @@
     vesktop
     spotify
     kitty
-    ghostty
     vscode
     zed-editor
     code-cursor
@@ -411,10 +410,9 @@
 
   programs.git = {
     enable = true;
-    userName = "vigovlugt";
-    userEmail = "vigovlugt@gmail.com";
-    lfs.enable = true;
-    extraConfig = {
+    settings = {
+      user.name = "vigovlugt";
+      user.email = "vigovlugt@gmail.com";
       push = {
         autoSetupRemote = true;
       };
@@ -422,9 +420,18 @@
         defaultBranch = "main";
       };
     };
+    lfs.enable = true;
   };
 
   programs.gh.enable = true;
+
+  programs.ghostty = {
+    enable = true;
+    settings = {
+      theme = "Cursor Dark";
+      shell-integration-features = "ssh-terminfo";
+    };
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
