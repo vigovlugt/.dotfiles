@@ -1,5 +1,5 @@
 {
-  description = "Vigo's NixOS installation";
+  description = "Vigo's NixOS installations";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -60,40 +60,24 @@
             }
           ];
         };
-      };
 
-      anakin = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./anakin/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.vigovlugt = inputs.nixpkgs.lib.mkMerge [
-                (import ./anakin/home.nix)
-              ];
-            };
-          }
-        ];
-      };
-      anakin-iso = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-          ./anakin/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.vigovlugt = inputs.nixpkgs.lib.mkMerge [
-                (import ./anakin/home.nix)
-              ];
-            };
-          }
-        ];
+        anakin = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./anakin/configuration.nix
+            ./anakin/hardware-configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.vigovlugt = inputs.nixpkgs.lib.mkMerge [
+                  (import ./anakin/home.nix)
+                ];
+              };
+            }
+          ];
+        };
       };
     };
 }

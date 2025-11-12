@@ -212,6 +212,8 @@
       "met" # weather
       "isal" # better compression
       "music_assistant"
+      "samsungtv"
+      "cast"
     ];
     config = {
       default_config = { };

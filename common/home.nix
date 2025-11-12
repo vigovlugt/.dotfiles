@@ -43,6 +43,7 @@
     arduino-ide
     arduino-cli
     arduino
+    heroic
 
     # Languages
     nodejs
