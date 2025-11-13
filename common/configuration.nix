@@ -196,39 +196,6 @@
 
   services.teamviewer.enable = true;
 
-  # services.music-assistant = {
-  #   enable = true;
-  #   providers = [
-  #     "chromecast"
-  #     "spotify"
-  #   ];
-  # };
-  # systemd.services.music-assistant.serviceConfig.Restart = "on-failure";
-  # systemd.services.music-assistant.serviceConfig.RestartSec = 5;
-  # services.home-assistant = {
-  #   enable = true;
-  #   extraComponents = [
-  #     "google_translate" # TTS
-  #     "met" # weather
-  #     "isal" # better compression
-  #     "music_assistant"
-  #     "samsungtv"
-  #     "cast"
-  #   ];
-  #   config = {
-  #     default_config = { };
-  #   };
-  # };
-  # services.galactus = {
-  #   enable = true;
-  #   settings = {
-  #     jukebox.album_map = {
-  #       "04 A3 5C 1B 2F 88 80" = "spotify:album:5WulAOx9ilWy1h8UGZ1gkI"; # Deadbeat
-  #       "04 A3 5C 1B 2F 88 81" = "spotify:album:5vkqYmiPBYLaalcmjujWxK"; # In rainbows
-  #     };
-  #   };
-  # };
-
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   services.displayManager.sddm.enable = true;
