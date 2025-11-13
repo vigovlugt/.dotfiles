@@ -59,10 +59,9 @@
 
   programs.git = {
     enable = true;
-    userName = "vigovlugt";
-    userEmail = "vigovlugt@gmail.com";
-    lfs.enable = true;
-    extraConfig = {
+    settings = {
+      user.name = "vigovlugt";
+      user.email = "vigovlugt@gmail.com";
       push = {
         autoSetupRemote = true;
       };
@@ -70,9 +69,14 @@
         defaultBranch = "main";
       };
     };
+    lfs.enable = true;
   };
 
   programs.home-manager.enable = true;
+
+  home.packages = with pkgs; [
+    btop
+  ];
 
   home.stateVersion = "24.11";
 }

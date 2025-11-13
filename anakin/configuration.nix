@@ -77,6 +77,7 @@
       "music_assistant"
       "samsungtv"
       "cast"
+      "spotify"
     ];
     config = {
       default_config = { };
@@ -90,6 +91,9 @@
 
   services.openssh.enable = true;
   users.users.vigovlugt.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMMoSFdoJdNFgDvjxrlGZW+oi8mOZA++9g4wI3t8oTPJ cassian"
+  ];
+  users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMMoSFdoJdNFgDvjxrlGZW+oi8mOZA++9g4wI3t8oTPJ cassian"
   ];
 

@@ -343,23 +343,13 @@
     syntaxHighlighting.enable = true;
 
     shellAliases = {
-      ll = "ls -l";
       upgrade = "nixos-rebuild switch --flake ~/.dotfiles --sudo";
       update = "nix flake update --flake ~/.dotfiles";
       windows = "systemctl reboot --boot-loader-entry=auto-windows";
-      config = "cursor ~/.dotfiles && exit";
-      jellyfin = "ssh raspberrypi -t 'cd ~/media-server && docker compose down && docker compose up -d jellyfin'";
-      radarr = "ssh raspberrypi -t 'cd ~/media-server && docker compose down && docker compose up -d radarr qbittorrent prowlarr'";
-      sonarr = "ssh raspberrypi -t 'cd ~/media-server && docker compose down && docker compose up -d sonarr qbittorrent prowlarr'";
+      config = "cursor ~/.dotfiles";
+      upgrade-anakin = "nixos-rebuild switch --flake ~/.dotfiles --target-host root@anakin --build-host root@anakin";
       nixdev = "nix develop --command $SHELL";
     };
-    sessionVariables = {
-      ANDROID_HOME = "/home/vigovlugt/Android/Sdk/";
-    };
-    # history = {
-    # size = 10000;
-    # path = "${config.xdg.dataHome}/zsh/history";
-    # };
     oh-my-zsh = {
       enable = true;
       plugins = [ "git" ];
