@@ -77,6 +77,7 @@
     grpcurl
     gnumake
     obsidian
+    bind # nslookup, dig
 
     # jetbrains.rider
     # android-studio
@@ -423,6 +424,14 @@
       theme = "Cursor Dark";
       shell-integration-features = "ssh-terminfo";
     };
+  };
+
+  xdg.desktopEntries.config = {
+    name = "Config";
+    comment = "Open ~/.dotfiles in Cursor";
+    exec = "sh -c \"cursor ~/.dotfiles\"";
+    terminal = false;
+    categories = [ "Utility" ];
   };
 
   # Let Home Manager install and manage itself.

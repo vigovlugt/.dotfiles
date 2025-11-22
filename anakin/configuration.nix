@@ -116,12 +116,64 @@
       plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2" ];
       hash = "sha256-4qUWhrv3/8BtNCi48kk4ZvbMckh/cGRL7k+MFvXKbTw=";
     };
-    environmentFile = "/run/secrets/caddy.env";
+    environmentFile = "/etc/caddy/secrets.env";
+  };
+
+  services.couchdb = {
+    enable = true;
+    adminPass = "admin";
+    bindAddress = "0.0.0.0";
+  };
+  services.caddy.virtualHosts."couchdb.vigovlugt.com".extraConfig = ''
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    reverse_proxy :5984
+  '';
+
+  systemd.services.restic-backup = {
+    description = "Restic Backup";
+
+    path = [
+      pkgs.restic
+      pkgs.systemd
+      pkgs.curl
+    ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+      EnvironmentFile = "/etc/restic/secrets.env";
+
+      ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_UUID}/start";
+      ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_UUID}/\${EXIT_STATUS}";
+    };
+
+    script = ''
+      echo "Stopping services..."
+      systemctl stop opencloud couchdb
+
+      trap "echo 'Restarting services...'; systemctl start opencloud couchdb" EXIT
+
+      echo "Starting backup..."
+      restic backup /var/lib/opencloud /var/lib/couchdb
+    '';
+  };
+
+  # Optional: Run this automatically at 3 AM every day
+  systemd.timers.restic-backup = {
+    wantedBy = [ "timers.target" ];
+    partOf = [ "restic-backup.service" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 04:00:00";
+      Persistent = true; # Run immediately if the system was off at 3 AM
+    };
   };
 
   environment.systemPackages = with pkgs; [
     vim
     wget
+    restic
   ];
 
   services.openssh.enable = true;

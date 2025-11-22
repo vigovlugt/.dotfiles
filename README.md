@@ -7,3 +7,7 @@
 5. Add ssh to `nano /etc/nixos/configuration.nix`
 6. Run `sudo nixos-rebuild switch`
 7. On desktop run `nixos-rebuild switch --flake .#NIXOSSYSTEM --target-host root@IP --build-host localhost`
+
+## Anakin configuration
+
+See [./anakin/README.md](./anakin/README.md)
