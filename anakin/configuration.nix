@@ -81,7 +81,42 @@
     ];
     config = {
       default_config = { };
+      http = {
+        base_url = "https://hass.vigovlugt.com";
+        use_x_forwarded_for = true;
+        trusted_proxies = "127.0.0.1";
+      };
     };
+  };
+  services.caddy.virtualHosts."hass.vigovlugt.com".extraConfig = ''
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    reverse_proxy :8123
+  '';
+
+  services.opencloud = {
+    enable = true;
+    environment = {
+      PROXY_TLS = "false";
+      ADMIN_PASSWORD = "admin";
+    };
+    url = "https://opencloud.vigovlugt.com";
+  };
+  services.caddy.virtualHosts."opencloud.vigovlugt.com".extraConfig = ''
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    reverse_proxy :9200
+  '';
+
+  services.caddy = {
+    enable = true;
+    package = pkgs.caddy.withPlugins {
+      plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2" ];
+      hash = "sha256-4qUWhrv3/8BtNCi48kk4ZvbMckh/cGRL7k+MFvXKbTw=";
+    };
+    environmentFile = "/run/secrets/caddy.env";
   };
 
   environment.systemPackages = with pkgs; [

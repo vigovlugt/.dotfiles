@@ -76,6 +76,7 @@
     protoc-gen-go-grpc
     grpcurl
     gnumake
+    obsidian
 
     # jetbrains.rider
     # android-studio
@@ -86,6 +87,7 @@
     grimblast
     nmap
     kdePackages.dolphin
+    prismlauncher
   ];
 
   wayland.windowManager.hyprland = {
