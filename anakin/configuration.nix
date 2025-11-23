@@ -180,18 +180,18 @@
       User = "root";
       EnvironmentFile = "/etc/restic/secrets.env";
 
-      ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_UUID}/start";
-      ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_UUID}/\${EXIT_STATUS}";
+      ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-prune/start";
+      ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-prune/\${EXIT_STATUS}";
     };
 
     script = ''
       echo "Stopping services..."
-      systemctl stop opencloud couchdb
+      systemctl stop opencloud couchdb postgresql
 
-      trap "echo 'Restarting services...'; systemctl start opencloud couchdb" EXIT
+      trap "echo 'Restarting services...'; systemctl start opencloud couchdb postgresql" EXIT
 
       echo "Starting backup..."
-      restic backup /var/lib/opencloud /var/lib/couchdb
+      restic backup /var/lib/opencloud /var/lib/couchdb /var/lib/postgresql
     '';
   };
 
@@ -201,6 +201,68 @@
     timerConfig = {
       OnCalendar = "*-*-* 04:00:00";
       Persistent = true; # Run immediately if the system was off at 4 AM
+    };
+  };
+
+  systemd.services.restic-prune = {
+    description = "Restic Prune";
+
+    path = [
+      pkgs.restic
+      pkgs.curl
+    ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+      EnvironmentFile = "/etc/restic/secrets.env";
+
+      ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-prune/start";
+      ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-prune/\${EXIT_STATUS}";
+    };
+
+    script = ''
+      restic forget --prune --keep-last 7 --keep-daily 7 --keep-weekly 4 --keep-monthly 6
+    '';
+  };
+
+  systemd.timers.restic-prune = {
+    description = "Run restic prune weekly";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "weekly";
+      Persistent = true;
+    };
+  };
+
+  systemd.services.restic-check = {
+    description = "Restic Check";
+
+    path = [
+      pkgs.restic
+      pkgs.curl
+    ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+      EnvironmentFile = "/etc/restic/secrets.env";
+
+      ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-check/start";
+      ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-check/\${EXIT_STATUS}";
+    };
+
+    script = ''
+      restic check
+    '';
+  };
+
+  systemd.timers.restic-check = {
+    description = "Run restic check monthly";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "monthly";
+      Persistent = true;
     };
   };
 
