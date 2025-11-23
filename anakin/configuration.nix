@@ -110,15 +110,6 @@
     reverse_proxy :9200
   '';
 
-  services.caddy = {
-    enable = true;
-    package = pkgs.caddy.withPlugins {
-      plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2" ];
-      hash = "sha256-4qUWhrv3/8BtNCi48kk4ZvbMckh/cGRL7k+MFvXKbTw=";
-    };
-    environmentFile = "/etc/caddy/secrets.env";
-  };
-
   services.couchdb = {
     enable = true;
     adminPass = "admin";
@@ -130,6 +121,50 @@
     }
     reverse_proxy :5984
   '';
+
+  services.postgresql = {
+    enable = true;
+    ensureDatabases = [ "tandoor_recipes" ];
+    ensureUsers = [
+      {
+        name = "tandoor_recipes";
+        ensureDBOwnership = true;
+      }
+    ];
+  };
+
+  services.tandoor-recipes = {
+    enable = true;
+    extraConfig = {
+      ENABLE_SIGNUP = "1";
+      DB_ENGINE = "django.db.backends.postgresql";
+      POSTGRES_HOST = "/run/postgresql";
+      POSTGRES_USER = "tandoor_recipes";
+      POSTGRES_DB = "tandoor_recipes";
+    };
+  };
+  systemd.services.tandoor-recipes = {
+    requires = [ "postgresql.target" ];
+    after = [ "postgresql.target" ];
+    serviceConfig = {
+      EnvironmentFile = "/etc/tandoor-recipes/secrets.env";
+    };
+  };
+  services.caddy.virtualHosts."tandoor.vigovlugt.com".extraConfig = ''
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    reverse_proxy :8080
+  '';
+
+  services.caddy = {
+    enable = true;
+    package = pkgs.caddy.withPlugins {
+      plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2" ];
+      hash = "sha256-4qUWhrv3/8BtNCi48kk4ZvbMckh/cGRL7k+MFvXKbTw=";
+    };
+    environmentFile = "/etc/caddy/secrets.env";
+  };
 
   systemd.services.restic-backup = {
     description = "Restic Backup";
@@ -160,13 +195,12 @@
     '';
   };
 
-  # Optional: Run this automatically at 3 AM every day
   systemd.timers.restic-backup = {
     wantedBy = [ "timers.target" ];
     partOf = [ "restic-backup.service" ];
     timerConfig = {
       OnCalendar = "*-*-* 04:00:00";
-      Persistent = true; # Run immediately if the system was off at 3 AM
+      Persistent = true; # Run immediately if the system was off at 4 AM
     };
   };
 

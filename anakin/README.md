@@ -41,6 +41,14 @@ systemctl start couchdb opencloud
 restic forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --prune
 ```
 
+### Tandoor
+
+1. Create /etc/tandoor-recipes/secrets.env
+
+```bash
+SECRET_KEY=""
+```
+
 ## Backup
 
 ### Setup
