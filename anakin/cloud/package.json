@@ -1,0 +1,19 @@
+{
+    "name": "cloud",
+    "main": "index.ts",
+    "devDependencies": {
+        "@types/node": "^18",
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "@pulumi/b2": "file:sdks/b2",
+        "@pulumi/cloudflare": "^6.11.0",
+        "@pulumi/healthchecksio": "file:sdks/healthchecksio",
+        "@pulumi/pulumi": "^3.113.0"
+    },
+    "trustedDependencies": [
+        "@pulumi/b2",
+        "@pulumi/healthchecksio",
+        "protobufjs"
+    ]
+}

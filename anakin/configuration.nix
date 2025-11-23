@@ -41,6 +41,8 @@
 
   services.getty.autologinUser = "vigovlugt";
 
+  hardware.graphics.enable = true;
+
   nixpkgs.config.allowUnfree = true;
 
   programs.zsh.enable = true;
@@ -68,6 +70,13 @@
   };
   systemd.services.music-assistant.serviceConfig.Restart = "on-failure";
   systemd.services.music-assistant.serviceConfig.RestartSec = 5;
+  services.caddy.virtualHosts."mass.vigovlugt.com".extraConfig = ''
+    tls {
+      dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    reverse_proxy :8095
+  '';
+
   services.home-assistant = {
     enable = true;
     extraComponents = [
@@ -124,13 +133,6 @@
 
   services.postgresql = {
     enable = true;
-    ensureDatabases = [ "tandoor_recipes" ];
-    ensureUsers = [
-      {
-        name = "tandoor_recipes";
-        ensureDBOwnership = true;
-      }
-    ];
   };
 
   services.tandoor-recipes = {
@@ -142,6 +144,7 @@
       POSTGRES_USER = "tandoor_recipes";
       POSTGRES_DB = "tandoor_recipes";
     };
+    database.createLocally = true;
   };
   systemd.services.tandoor-recipes = {
     requires = [ "postgresql.target" ];
@@ -155,6 +158,22 @@
         dns cloudflare {env.CLOUDFLARE_API_TOKEN}
     }
     reverse_proxy :8080
+  '';
+
+  services.immich = {
+    enable = true;
+    accelerationDevices = null;
+    host = "0.0.0.0";
+  };
+  users.users.immich.extraGroups = [
+    "video"
+    "render"
+  ];
+  services.caddy.virtualHosts."immich.vigovlugt.com".extraConfig = ''
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    reverse_proxy :2283
   '';
 
   services.caddy = {
@@ -186,12 +205,12 @@
 
     script = ''
       echo "Stopping services..."
-      systemctl stop opencloud couchdb postgresql
+      systemctl stop opencloud couchdb postgresql immich-server
 
-      trap "echo 'Restarting services...'; systemctl start opencloud couchdb postgresql" EXIT
+      trap "echo 'Restarting services...'; systemctl start opencloud couchdb postgresql immich-server" EXIT
 
       echo "Starting backup..."
-      restic backup /var/lib/opencloud /var/lib/couchdb /var/lib/postgresql
+      restic backup /var/lib/opencloud /var/lib/couchdb /var/lib/postgresql /var/lib/immich /var/lib/tandoor-recipes
     '';
   };
 
@@ -283,4 +302,5 @@
   networking.firewall.enable = false;
 
   system.stateVersion = "25.05";
+
 }

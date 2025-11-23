@@ -1,0 +1,21 @@
+name: cloud
+description: A minimal TypeScript Pulumi program
+runtime:
+  name: nodejs
+  options:
+    packagemanager: bun
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: typescript
+packages:
+  healthchecksio:
+    source: terraform-provider
+    version: 0.11.0
+    parameters:
+      - kristofferahl/healthchecksio
+  b2:
+    source: terraform-provider
+    version: 0.11.0
+    parameters:
+      - Backblaze/b2

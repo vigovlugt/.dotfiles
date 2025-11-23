@@ -43,6 +43,7 @@
     arduino-cli
     arduino
     heroic
+    pulumi
 
     # Languages
     nodejs

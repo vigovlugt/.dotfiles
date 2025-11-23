@@ -1,0 +1,10 @@
+encryptionsalt: v1:qfLNWsYV+O0=:v1:gw9DYD0V27bx+Jer:9mN+CQFi2oZnYFz5A/dWY7Q6ty3hOg==
+config:
+  cloudflare:apiToken:
+    secure: v1:BTHJWFSutsWNtr7i:IDEOosFNUjFvt01u+SeIQH9rAPAYg3xUOGLSdDFfzv/M4LT51bMdBBAM5dVscvtadwZwRi1n5Gc=
+  healthchecksio:apiKey:
+    secure: v1:vMut9kiXOMMrFRGH:LiPSkDlJ4xKj798StZru19NwUCuu7HCo0Xpq+I1UWDvd0182ay2vYFnflp+yMnV3
+  backblaze:applicationKey:
+    secure: v1:ZZF7aMljId4cTjGF:rLs2KqRUfXfZTq21dR5O/4UFpL9XJC+0iwNOY+RudP2wmiL4FGJVEsd23s3fJ+Y=
+  backblaze:applicationKeyId:
+    secure: v1:EVoh1kIypul7czKl:1VvYhRUU/40Xpmy84qNn7de2JjcQiU8AFN3CWMFjQESuAwK6uocISQ4=

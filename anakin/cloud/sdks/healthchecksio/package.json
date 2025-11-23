@@ -1,0 +1,27 @@
+{
+    "name": "@pulumi/healthchecksio",
+    "version": "2.3.0",
+    "description": "A Pulumi provider dynamically bridged from healthchecksio.",
+    "repository": "https://github.com/kristofferahl/terraform-provider-healthchecksio",
+    "main": "bin/index.js",
+    "scripts": {
+        "build": "tsc",
+        "postinstall": "node ./scripts/postinstall.js"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "^3.142.0",
+        "@types/node": "^18",
+        "async-mutex": "^0.5.0",
+        "typescript": "^4.3.5"
+    },
+    "pulumi": {
+        "resource": true,
+        "name": "terraform-provider",
+        "version": "0.11.0",
+        "parameterization": {
+            "name": "healthchecksio",
+            "version": "2.3.0",
+            "value": "eyJyZW1vdGUiOnsidXJsIjoicmVnaXN0cnkub3BlbnRvZnUub3JnL2tyaXN0b2ZmZXJhaGwvaGVhbHRoY2hlY2tzaW8iLCJ2ZXJzaW9uIjoiMi4zLjAifX0="
+        }
+    }
+}
