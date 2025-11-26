@@ -180,7 +180,7 @@
     enable = true;
     package = pkgs.caddy.withPlugins {
       plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2" ];
-      hash = "sha256-4qUWhrv3/8BtNCi48kk4ZvbMckh/cGRL7k+MFvXKbTw=";
+      hash = "sha256-ea8PC/+SlPRdEVVF/I3c1CBprlVp1nrumKM5cMwJJ3U=";
     };
     environmentFile = "/etc/caddy/secrets.env";
   };
@@ -207,10 +207,10 @@
       echo "Stopping services..."
       systemctl stop opencloud couchdb postgresql immich-server tandoor-recipes
 
-      trap "echo 'Restarting services...'; systemctl start opencloud couchdb postgresql immich-serve tandoor-recipes" EXIT
+      trap "echo 'Restarting services...'; systemctl start opencloud couchdb postgresql immich-server tandoor-recipes" EXIT
 
       echo "Starting backup..."
-      restic backup /var/lib/opencloud /var/lib/couchdb /var/lib/postgresql /var/lib/immich /var/lib/tandoor-recipes
+      restic backup /var/lib/opencloud /var/lib/couchdb /var/lib/postgresql /var/lib/immich /var/lib/tandoor-recipes --exclude /var/lib/immich/thumbs --exclude /var/lib/immich/encoded-video
     '';
   };
 
@@ -289,6 +289,7 @@
     vim
     wget
     restic
+    gdu
   ];
 
   services.openssh.enable = true;
