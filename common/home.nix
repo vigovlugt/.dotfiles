@@ -427,6 +427,10 @@
     };
   };
 
+  programs.thunderbird = {
+    enable = true;
+  };
+
   xdg.desktopEntries.config = {
     name = "Config";
     comment = "Open ~/.dotfiles in Cursor";

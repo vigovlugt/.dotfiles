@@ -205,12 +205,12 @@
 
     script = ''
       echo "Stopping services..."
-      systemctl stop opencloud couchdb postgresql immich-server tandoor-recipes
+      systemctl stop opencloud couchdb postgresql immich-server tandoor-recipes actual
 
-      trap "echo 'Restarting services...'; systemctl start opencloud couchdb postgresql immich-server tandoor-recipes" EXIT
+      trap "echo 'Restarting services...'; systemctl start opencloud couchdb postgresql immich-server tandoor-recipes actual" EXIT
 
       echo "Starting backup..."
-      restic backup /var/lib/opencloud /var/lib/couchdb /var/lib/postgresql /var/lib/immich /var/lib/tandoor-recipes --exclude /var/lib/immich/thumbs --exclude /var/lib/immich/encoded-video
+      restic backup /var/lib/opencloud /var/lib/couchdb /var/lib/postgresql /var/lib/immich /var/lib/tandoor-recipes /var/lib/actual --exclude /var/lib/immich/thumbs --exclude /var/lib/immich/encoded-video
     '';
   };
 
@@ -291,6 +291,14 @@
     restic
     gdu
   ];
+
+  services.actual.enable = true;
+  services.caddy.virtualHosts."actual.vigovlugt.com".extraConfig = ''
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    reverse_proxy :3000
+  '';
 
   services.openssh.enable = true;
   users.users.vigovlugt.openssh.authorizedKeys.keys = [

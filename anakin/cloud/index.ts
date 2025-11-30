@@ -12,7 +12,15 @@ function setupCloudflare() {
   });
 
   const zoneId = "606507539cbba31bf73aa0199da9edc1"; // vigovlugt.com
-  const aliases = ["couchdb", "hass", "mass", "opencloud", "tandoor", "immich"];
+  const aliases = [
+    "couchdb",
+    "hass",
+    "mass",
+    "opencloud",
+    "tandoor",
+    "immich",
+    "actual",
+  ];
 
   for (const alias of aliases) {
     new cloudflare.DnsRecord(
