@@ -83,7 +83,7 @@
 
     # jetbrains.rider
     # android-studio
-    # android-tools
+    android-tools
     # azure-cli
     pavucontrol
     unzip

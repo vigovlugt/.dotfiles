@@ -169,8 +169,6 @@
 
   programs.hyprland.enable = true;
 
-  programs.adb.enable = true;
-
   virtualisation.docker = {
     enable = true;
     liveRestore = false;
@@ -178,7 +176,6 @@
 
   services.ollama = {
     enable = false;
-    acceleration = "cuda";
   };
 
   services.tailscale.enable = true;
