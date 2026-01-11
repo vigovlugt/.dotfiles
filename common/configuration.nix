@@ -131,6 +131,7 @@
       "video"
       "docker"
       "libvirtd"
+      "adbusers"
     ];
     packages = with pkgs; [ ];
   };
@@ -167,6 +168,8 @@
   programs.nix-ld.enable = true;
 
   programs.hyprland.enable = true;
+
+  programs.adb.enable = true;
 
   virtualisation.docker = {
     enable = true;

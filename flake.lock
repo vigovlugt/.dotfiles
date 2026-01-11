@@ -24,11 +24,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1762021127,
-        "narHash": "sha256-jk3R2Q3u/460VhXREUWEDz7gt7Vya+xO3GrDKb+Q71E=",
+        "lastModified": 1764884963,
+        "narHash": "sha256-sHRC12uEMUivshwC/0Xotk5Ifq6wYGSdB9A7CKjNmoc=",
         "ref": "refs/heads/main",
-        "rev": "dc88b57eceb2d0ce5fdbbe5edd85d463a8efd627",
-        "revCount": 19,
+        "rev": "cd8a2e4bcbabfc466f8853c9694aef288b6fc6d9",
+        "revCount": 20,
         "type": "git",
         "url": "ssh://git@github.com/vigovlugt/galactus.git"
       },
@@ -44,11 +44,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764007004,
-        "narHash": "sha256-OnonWWGrUGPc3y1TES/RVCe4Gd75YgdU8aIp07Au4lc=",
+        "lastModified": 1768068402,
+        "narHash": "sha256-bAXnnJZKJiF7Xr6eNW6+PhBf1lg2P1aFUO9+xgWkXfA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "125e40fa68b340aee9d474a46b540907e2537b5c",
+        "rev": "8bc5473b6bc2b6e1529a9c4040411e1199c43b4c",
         "type": "github"
       },
       "original": {
@@ -75,11 +75,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1763835633,
-        "narHash": "sha256-HzxeGVID5MChuCPESuC0dlQL1/scDKu+MmzoVBJxulM=",
+        "lastModified": 1767892417,
+        "narHash": "sha256-dhhvQY67aboBk8b0/u0XB6vwHdgbROZT3fJAjyNh5Ww=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "050e09e091117c3d7328c7b2b7b577492c43c134",
+        "rev": "3497aa5c9457a9d88d71fa93a4a8368816fbeeba",
         "type": "github"
       },
       "original": {

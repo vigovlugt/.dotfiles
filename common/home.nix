@@ -44,6 +44,7 @@
     arduino
     heroic
     pulumi
+    android-tools
 
     # Languages
     nodejs
@@ -429,6 +430,9 @@
 
   programs.thunderbird = {
     enable = true;
+    profiles.vigo = {
+      isDefault = true;
+    };
   };
 
   xdg.desktopEntries.config = {
