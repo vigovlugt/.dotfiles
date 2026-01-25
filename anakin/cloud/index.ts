@@ -20,6 +20,7 @@ function setupCloudflare() {
     "tandoor",
     "immich",
     "actual",
+    "opencode"
   ];
 
   for (const alias of aliases) {

@@ -13,7 +13,7 @@
     spotify
     kitty
     vscode
-    zed-editor
+    # zed-editor
     code-cursor
     nixd
     nixpkgs-fmt
@@ -70,7 +70,7 @@
     typescript-language-server
     prettierd
     eslint_d
-    pkgs.nixfmt-rfc-style
+    nixfmt
     sqlite
     protobuf
     protoc-gen-go
@@ -80,6 +80,8 @@
     gnumake
     obsidian
     bind # nslookup, dig
+    jq
+    opencode
 
     # jetbrains.rider
     # android-studio
@@ -165,7 +167,7 @@
         force_default_wallpaper = "0";
         disable_hyprland_logo = "true";
       };
-      # windowrulev2 = "suppressevent maximize, class:.*";
+      windowrule = "workspace 2 silent, match:class discord";
       # dwindle = {
       #   preserve_split = "true";
       # };
@@ -177,6 +179,7 @@
         "mako"
         "[workspace 1 silent] firefox"
         "[workspace 2 silent] discord"
+        "[workspace 3 silent] $terminal"
       ];
     };
   };
@@ -354,6 +357,7 @@
       config = "cursor ~/.dotfiles";
       upgrade-anakin = "nixos-rebuild switch --flake ~/.dotfiles --target-host root@anakin --build-host root@anakin";
       nixdev = "nix develop --command $SHELL";
+      collect-garbage = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
     };
     oh-my-zsh = {
       enable = true;

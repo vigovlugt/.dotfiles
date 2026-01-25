@@ -180,7 +180,7 @@
     enable = true;
     package = pkgs.caddy.withPlugins {
       plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2" ];
-      hash = "sha256-ea8PC/+SlPRdEVVF/I3c1CBprlVp1nrumKM5cMwJJ3U=";
+      hash = "sha256-dnhEjopeA0UiI+XVYHYpsjcEI6Y1Hacbi28hVKYQURg=";
     };
     environmentFile = "/etc/caddy/secrets.env";
   };
@@ -290,6 +290,7 @@
     wget
     restic
     gdu
+    opencode
   ];
 
   services.actual.enable = true;
@@ -298,6 +299,27 @@
         dns cloudflare {env.CLOUDFLARE_API_TOKEN}
     }
     reverse_proxy :3000
+  '';
+
+  systemd.services.opencode-web = {
+    description = "OpenCode Web Interface";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    serviceConfig = {
+      User = "vigovlugt";
+      Group = "users";
+      WorkingDirectory = "/home/vigovlugt";
+      ExecStart = "${pkgs.opencode}/bin/opencode web";
+      Restart = "on-failure";
+      RestartSec = "5s";
+    };
+  };
+
+  services.caddy.virtualHosts."opencode.vigovlugt.com".extraConfig = ''
+    tls {
+      dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    reverse_proxy :4096
   '';
 
   services.openssh.enable = true;
