@@ -1,6 +1,9 @@
 {
     "name": "cloud",
     "main": "index.ts",
+    "scripts": {
+        "up": "bunx --bun pulumi up"
+    },
     "devDependencies": {
         "@types/node": "^18",
         "typescript": "^5.0.0"

@@ -143,6 +143,7 @@
       POSTGRES_HOST = "/run/postgresql";
       POSTGRES_USER = "tandoor_recipes";
       POSTGRES_DB = "tandoor_recipes";
+      MEDIA_ROOT = "/var/lib/tandoor-recipes/media";
     };
     database.createLocally = true;
   };
@@ -199,8 +200,8 @@
       User = "root";
       EnvironmentFile = "/etc/restic/secrets.env";
 
-      ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-prune/start";
-      ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-prune/\${EXIT_STATUS}";
+      ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup/start";
+      ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup/\${EXIT_STATUS}";
     };
 
     script = ''
@@ -280,7 +281,7 @@
     description = "Run restic check monthly";
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnCalendar = "monthly";
+      OnCalendar = "0 0 1 * *";
       Persistent = true;
     };
   };
@@ -322,7 +323,42 @@
     reverse_proxy :4096
   '';
 
+  systemd.services.openobserve = {
+    description = "The OpenObserve server";
+    wantedBy = [ "multi-user.target" ];
+    after = [
+      "syslog.target"
+      "network-online.target"
+      "remote-fs.target"
+      "nss-lookup.target"
+    ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Type = "simple";
+      LimitNOFILE = 65535;
+      StateDirectory = "openobserve";
+      Environment = [ "ZO_DATA_DIR=/var/lib/openobserve" ];
+      EnvironmentFile = "/etc/openobserve/secrets.env";
+      ExecStart = "${pkgs.openobserve}/bin/openobserve";
+      ExecStop = "${pkgs.coreutils}/bin/kill -s QUIT $MAINPID";
+      Restart = "on-failure";
+    };
+  };
+
+  services.caddy.virtualHosts."openobserve.vigovlugt.com".extraConfig = ''
+    tls {
+      dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    reverse_proxy :5080
+  '';
+
   services.openssh.enable = true;
+
+  services.porta-potty = {
+    enable = true;
+    environmentFile = "/etc/porta-potty/secrets.env";
+  };
+
   users.users.vigovlugt.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMMoSFdoJdNFgDvjxrlGZW+oi8mOZA++9g4wI3t8oTPJ cassian"
   ];

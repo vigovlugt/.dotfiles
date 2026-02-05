@@ -138,13 +138,13 @@
         "$mod, right, movefocus, r"
         "$mod, up, movefocus, u"
         "$mod, down, movefocus, d"
-        "$mod, S, togglespecialworkspace, magic"
-        "$mod SHIFT, S, movetoworkspace, special:magic"
+        # "$mod, S, togglespecialworkspace, magic"
+        # "$mod SHIFT, S, movetoworkspace, special:magic"
         "$mod, mouse_down, workspace, e+1"
         "$mod, mouse_up, workspace, e-1"
         "$mod, apostrophe, exec, $browser"
         "$mod, L, exec, loginctl lock-session"
-        ", Print, exec, grimblast copy area"
+        "$mod SHIFT, S, exec, grimblast copy area"
         "$mod SHIFT, C, exec, $colorpicker"
       ];
       bindm = [
