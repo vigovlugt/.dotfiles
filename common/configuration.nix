@@ -132,6 +132,7 @@
       "docker"
       "libvirtd"
       "adbusers"
+      "dialout"
     ];
     packages = with pkgs; [ ];
   };

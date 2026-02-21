@@ -43,6 +43,9 @@
       bind  %  split-window -h -c "#{pane_current_path}"
       bind '"' split-window -v -c "#{pane_current_path}"
 
+      unbind -n Tab
+      set -s escape-time 0
+
       set -g default-terminal "tmux-256color"
       set -ag terminal-overrides ",xterm-256color:RGB"
     '';

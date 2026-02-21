@@ -75,6 +75,7 @@
             ./anakin/configuration.nix
             ./anakin/hardware-configuration.nix
             porta-potty.nixosModules.default
+            galactus.nixosModules.default
             home-manager.nixosModules.home-manager
             {
               home-manager = {

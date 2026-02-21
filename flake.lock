@@ -26,11 +26,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764884963,
-        "narHash": "sha256-sHRC12uEMUivshwC/0Xotk5Ifq6wYGSdB9A7CKjNmoc=",
+        "lastModified": 1771684415,
+        "narHash": "sha256-xjFu/ojGlWcyWSfPNzF17T1qvq9WHfmgzVehecCC0XM=",
         "ref": "refs/heads/main",
-        "rev": "cd8a2e4bcbabfc466f8853c9694aef288b6fc6d9",
-        "revCount": 20,
+        "rev": "4c80c7965ab8bbf6b2b64cb82f7059ed00b70805",
+        "revCount": 25,
         "type": "git",
         "url": "ssh://git@github.com/vigovlugt/galactus.git"
       },
@@ -82,11 +82,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1770241802,
-        "narHash": "sha256-5O8Jxqj6FVqJYR3OCDU3hyKgjfdnAyXNkrqQO7/gtHM=",
+        "lastModified": 1770329329,
+        "narHash": "sha256-dKfjw/LC9K+qZd7qiV6cppUH+g12AAVCM/ihBPS2oa0=",
         "ref": "refs/heads/main",
-        "rev": "0c72be94c2606ba8c5c9fe2304c34f32500729f2",
-        "revCount": 44,
+        "rev": "d7895e7a118171bd27b62947c8a93ca11828b31d",
+        "revCount": 46,
         "type": "git",
         "url": "ssh://git@github.com/vigovlugt/porta-potty.git"
       },
