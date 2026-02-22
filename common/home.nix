@@ -20,6 +20,12 @@
     ../modules/home/desktop-entries.nix
   ];
 
+  # Desktop-specific dconf (not available on headless servers)
+  dconf = {
+    enable = true;
+    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+  };
+
   # Desktop-specific zsh aliases (merged with shared aliases from modules/home/zsh.nix)
   programs.zsh.shellAliases = {
     windows = "systemctl reboot --boot-loader-entry=auto-windows";
