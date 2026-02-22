@@ -102,7 +102,7 @@
       "$mod" = "SUPER";
       "$terminal" = "ghostty";
       "$fileManager" = "dolphin";
-      "$menu" = "wofi --gtk-dark --show drun";
+      "$menu" = "vicinae toggle";
       "$browser" = "firefox";
       "$colorpicker" = "hyprpicker --autocopy";
       bind = [
@@ -177,6 +177,7 @@
       exec-once = [
         "waybar"
         "mako"
+        "vicinae server"
         "[workspace 1 silent] firefox"
         "[workspace 2 silent] discord"
         "[workspace 3 silent] $terminal"
@@ -445,6 +446,14 @@
     exec = "sh -c \"cursor ~/.dotfiles\"";
     terminal = false;
     categories = [ "Utility" ];
+  };
+
+  programs.vicinae = {
+    enable = true;
+    systemd = {
+      enable = true;
+      autoStart = true;
+    };
   };
 
   # Let Home Manager install and manage itself.

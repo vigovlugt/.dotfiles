@@ -229,7 +229,6 @@
     wget
     git
     kitty
-    wofi
     waybar
     mako
   ];

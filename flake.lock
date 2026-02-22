@@ -26,11 +26,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1771684415,
-        "narHash": "sha256-xjFu/ojGlWcyWSfPNzF17T1qvq9WHfmgzVehecCC0XM=",
+        "lastModified": 1771687863,
+        "narHash": "sha256-METx2ADpJumIse+FZatTy98ccUBi5wBmJzUPui0rPE4=",
         "ref": "refs/heads/main",
-        "rev": "4c80c7965ab8bbf6b2b64cb82f7059ed00b70805",
-        "revCount": 25,
+        "rev": "12e7298e7f736fd927eff395bf02b581656afe70",
+        "revCount": 27,
         "type": "git",
         "url": "ssh://git@github.com/vigovlugt/galactus.git"
       },
