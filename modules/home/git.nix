@@ -9,6 +9,9 @@
       push = {
         autoSetupRemote = true;
       };
+      pull = {
+        rebase = true;
+      };
       init = {
         defaultBranch = "main";
       };

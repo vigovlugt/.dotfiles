@@ -17,7 +17,6 @@
     ../modules/nixos/kde.nix
     ../modules/nixos/docker.nix
     ../modules/nixos/libvirtd.nix
-    ../modules/nixos/nh.nix
     ../modules/nixos/teamviewer.nix
     ../modules/nixos/nix-ld.nix
     ../modules/nixos/fonts.nix
