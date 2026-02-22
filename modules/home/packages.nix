@@ -35,7 +35,6 @@
     pulumiPackages.pulumi-nodejs
     arduino-ide
     arduino-cli
-    arduino
     heroic
     pulumi
     android-tools
@@ -45,7 +44,6 @@
     pnpm
     gcc
     rustup
-    jdk
     python3
     go
     zig
@@ -57,8 +55,6 @@
     delve
     golangci-lint
     uv
-    omnisharp-roslyn
-    roslyn-ls
     vue-language-server
     lua-language-server
     typescript-language-server
@@ -86,6 +82,5 @@
     grimblast
     nmap
     kdePackages.dolphin
-    prismlauncher
   ];
 }

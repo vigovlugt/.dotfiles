@@ -16,8 +16,7 @@
     ../modules/nixos/hyprland.nix
     ../modules/nixos/kde.nix
     ../modules/nixos/docker.nix
-    ../modules/nixos/libvirtd.nix
-    ../modules/nixos/teamviewer.nix
+
     ../modules/nixos/nix-ld.nix
     ../modules/nixos/fonts.nix
     ../modules/nixos/swap.nix
@@ -29,7 +28,6 @@
     "input"
     "video"
     "docker"
-    "libvirtd"
     "adbusers"
     "dialout"
   ];
