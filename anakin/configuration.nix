@@ -1,65 +1,21 @@
 { config, pkgs, ... }:
 {
-  boot.loader = {
-    timeout = 0;
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-  };
+  imports = [
+    ../modules/nixos/base.nix
+    ../modules/nixos/boot.nix
+    ../modules/nixos/networking.nix
+    ../modules/nixos/user.nix
+    ../modules/nixos/tailscale.nix
+    ../modules/nixos/avahi.nix
+  ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "anakin";
-  networking.networkmanager.enable = true;
-
-  time.timeZone = "Europe/Amsterdam";
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "nl_NL.UTF-8";
-    LC_IDENTIFICATION = "nl_NL.UTF-8";
-    LC_MEASUREMENT = "nl_NL.UTF-8";
-    LC_MONETARY = "nl_NL.UTF-8";
-    LC_NAME = "nl_NL.UTF-8";
-    LC_NUMERIC = "nl_NL.UTF-8";
-    LC_PAPER = "nl_NL.UTF-8";
-    LC_TELEPHONE = "nl_NL.UTF-8";
-    LC_TIME = "nl_NL.UTF-8";
-  };
-
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
-  users.users.vigovlugt = {
-    isNormalUser = true;
-    description = "Vigo Vlugt";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
-  };
 
   services.getty.autologinUser = "vigovlugt";
 
   hardware.graphics.enable = true;
-
-  nixpkgs.config.allowUnfree = true;
-
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-
-  services.tailscale.enable = true;
-
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    publish = {
-      enable = true;
-      addresses = true;
-      workstation = true;
-    };
-    allowInterfaces = [ "eno1" ];
-  };
 
   services.music-assistant = {
     enable = true;
@@ -220,7 +176,7 @@
     partOf = [ "restic-backup.service" ];
     timerConfig = {
       OnCalendar = "*-*-* 04:00:00";
-      Persistent = true; # Run immediately if the system was off at 4 AM
+      Persistent = true;
     };
   };
 
@@ -411,8 +367,5 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMMoSFdoJdNFgDvjxrlGZW+oi8mOZA++9g4wI3t8oTPJ cassian"
   ];
 
-  networking.firewall.enable = false;
-
   system.stateVersion = "25.05";
-
 }

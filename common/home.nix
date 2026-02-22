@@ -1,12 +1,24 @@
 { pkgs, ... }:
 
 {
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-  home.username = "vigovlugt";
-  home.homeDirectory = "/home/vigovlugt";
+  imports = [
+    ../modules/home/base.nix
+    ../modules/home/zsh.nix
+    ../modules/home/tmux.nix
+    ../modules/home/git.nix
+    ../modules/home/neovim.nix
+    ../modules/home/zoxide.nix
+  ];
 
-  # Packages that should be installed to the user profile.
+  # Desktop-specific zsh aliases (merged with shared aliases from modules/home/zsh.nix)
+  programs.zsh.shellAliases = {
+    windows = "systemctl reboot --boot-loader-entry=auto-windows";
+    config = "cursor ~/.dotfiles";
+    upgrade-anakin = "nixos-rebuild switch --flake ~/.dotfiles --target-host root@anakin --build-host root@anakin";
+    nixdev = "nix develop --command $SHELL";
+    collect-garbage = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
+  };
+
   home.packages = with pkgs; [
     discord
     vesktop
@@ -138,8 +150,6 @@
         "$mod, right, movefocus, r"
         "$mod, up, movefocus, u"
         "$mod, down, movefocus, d"
-        # "$mod, S, togglespecialworkspace, magic"
-        # "$mod SHIFT, S, movetoworkspace, special:magic"
         "$mod, mouse_down, workspace, e+1"
         "$mod, mouse_up, workspace, e-1"
         "$mod, apostrophe, exec, $browser"
@@ -168,9 +178,6 @@
         disable_hyprland_logo = "true";
       };
       windowrule = "workspace 2 silent, match:class discord";
-      # dwindle = {
-      #   preserve_split = "true";
-      # };
       animations = {
         enabled = "false";
       };
@@ -185,43 +192,15 @@
     };
   };
 
-  # home.pointerCursor = {
-  #   gtk.enable = true;
-  #   x11.enable = true;
-  #   package = pkgs.bibata-cursors;
-  #   name = "Bibata-Modern-Ice";
-  #   size = 16;
-  # };
-
-  # gtk = {
-  #   enable = true;
-
-  #   theme = {
-  #     package = pkgs.flat-remix-gtk;
-  #     name = "Flat-Remix-GTK-Grey-Darkest";
-  #   };
-
-  #   iconTheme = {
-  #     package = pkgs.adwaita-icon-theme;
-  #     name = "Adwaita";
-  #   };
-
-  #   font = {
-  #     name = "Sans";
-  #     size = 11;
-  #   };
-  # };
-
   programs.hyprlock.enable = true;
 
   services.hypridle = {
-    # enable = true;
     enable = false;
 
     settings = {
       general = {
-        lock_cmd = "pidof hyprlock || hyprlock & systemctl suspend"; # avoid starting multiple hyprlock instances.
-        after_sleep_cmd = "hyprctl dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
+        lock_cmd = "pidof hyprlock || hyprlock & systemctl suspend";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
         before_sleep_cmd = "loginctl lock-session";
       };
 
@@ -340,90 +319,7 @@
     };
   };
 
-  dconf = {
-    enable = true;
-    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
-  };
-
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-
-    shellAliases = {
-      upgrade = "nixos-rebuild switch --flake ~/.dotfiles --sudo";
-      update = "nix flake update --flake ~/.dotfiles";
-      windows = "systemctl reboot --boot-loader-entry=auto-windows";
-      config = "cursor ~/.dotfiles";
-      upgrade-anakin = "nixos-rebuild switch --flake ~/.dotfiles --target-host root@anakin --build-host root@anakin";
-      nixdev = "nix develop --command $SHELL";
-      collect-garbage = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
-    };
-    oh-my-zsh = {
-      enable = true;
-      plugins = [ "git" ];
-      theme = "robbyrussell";
-    };
-  };
-
-  programs.tmux = {
-    enable = true;
-    extraConfig = ''
-      unbind C-b
-      set-option -g prefix C-a
-      bind-key C-a send-prefix
-
-      set -g base-index 1
-      setw -g pane-base-index 1
-
-      set-window-option -g mode-keys vi
-      bind -T copy-mode-vi v send-keys -X begin-selection
-      bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
-
-      bind -r ^ last-window
-      bind -r k select-pane -U
-      bind -r j select-pane -D
-      bind -r h select-pane -L
-      bind -r l select-pane -R
-
-      bind  c  new-window      -c "#{pane_current_path}"
-      bind  %  split-window -h -c "#{pane_current_path}"
-      bind '"' split-window -v -c "#{pane_current_path}"
-
-      set -g default-terminal "tmux-256color"
-      set -ag terminal-overrides ",xterm-256color:RGB"
-    '';
-  };
-
-  programs.zoxide.enable = true;
-
-  # Install firefox.
   programs.firefox.enable = true;
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-  };
-
-  programs.git = {
-    enable = true;
-    settings = {
-      user.name = "vigovlugt";
-      user.email = "vigovlugt@gmail.com";
-      push = {
-        autoSetupRemote = true;
-      };
-      init = {
-        defaultBranch = "main";
-      };
-    };
-    lfs.enable = true;
-  };
-
-  programs.gh.enable = true;
 
   programs.ghostty = {
     enable = true;
@@ -456,16 +352,5 @@
     };
   };
 
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
-
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
   home.stateVersion = "24.05";
 }
