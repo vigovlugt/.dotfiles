@@ -1,4 +1,5 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
+
 {
   imports = [
     ../modules/nixos/base.nix
@@ -7,6 +8,21 @@
     ../modules/nixos/user.nix
     ../modules/nixos/tailscale.nix
     ../modules/nixos/avahi.nix
+    ../modules/nixos/openssh.nix
+    ./services/caddy.nix
+    ./services/home-assistant.nix
+    ./services/music-assistant.nix
+    ./services/opencloud.nix
+    ./services/couchdb.nix
+    ./services/postgresql.nix
+    ./services/tandoor.nix
+    ./services/immich.nix
+    ./services/actual.nix
+    ./services/openobserve.nix
+    ./services/opencode-web.nix
+    ./services/restic.nix
+    ./services/galactus.nix
+    ./services/porta-potty.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -17,231 +33,6 @@
 
   hardware.graphics.enable = true;
 
-  services.music-assistant = {
-    enable = true;
-    providers = [
-      "chromecast"
-      "spotify"
-    ];
-  };
-  systemd.services.music-assistant.serviceConfig.Restart = "on-failure";
-  systemd.services.music-assistant.serviceConfig.RestartSec = 5;
-  services.caddy.virtualHosts."mass.vigovlugt.com".extraConfig = ''
-    tls {
-      dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
-    reverse_proxy :8095
-  '';
-
-  services.home-assistant = {
-    enable = true;
-    extraComponents = [
-      "google_translate" # TTS
-      "met" # weather
-      "isal" # better compression
-      "music_assistant"
-      "samsungtv"
-      "cast"
-      "spotify"
-    ];
-    config = {
-      default_config = { };
-      http = {
-        base_url = "https://hass.vigovlugt.com";
-        use_x_forwarded_for = true;
-        trusted_proxies = "127.0.0.1";
-      };
-    };
-  };
-  services.caddy.virtualHosts."hass.vigovlugt.com".extraConfig = ''
-    tls {
-        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
-    reverse_proxy :8123
-  '';
-
-  services.opencloud = {
-    enable = true;
-    environment = {
-      PROXY_TLS = "false";
-      ADMIN_PASSWORD = "admin";
-    };
-    url = "https://opencloud.vigovlugt.com";
-  };
-  services.caddy.virtualHosts."opencloud.vigovlugt.com".extraConfig = ''
-    tls {
-        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
-    reverse_proxy :9200
-  '';
-
-  services.couchdb = {
-    enable = true;
-    adminPass = "admin";
-    bindAddress = "0.0.0.0";
-  };
-  services.caddy.virtualHosts."couchdb.vigovlugt.com".extraConfig = ''
-    tls {
-        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
-    reverse_proxy :5984
-  '';
-
-  services.postgresql = {
-    enable = true;
-  };
-
-  services.tandoor-recipes = {
-    enable = true;
-    extraConfig = {
-      ENABLE_SIGNUP = "1";
-      DB_ENGINE = "django.db.backends.postgresql";
-      POSTGRES_HOST = "/run/postgresql";
-      POSTGRES_USER = "tandoor_recipes";
-      POSTGRES_DB = "tandoor_recipes";
-      MEDIA_ROOT = "/var/lib/tandoor-recipes/media";
-    };
-    database.createLocally = true;
-  };
-  systemd.services.tandoor-recipes = {
-    requires = [ "postgresql.target" ];
-    after = [ "postgresql.target" ];
-    serviceConfig = {
-      EnvironmentFile = "/etc/tandoor-recipes/secrets.env";
-    };
-  };
-  services.caddy.virtualHosts."tandoor.vigovlugt.com".extraConfig = ''
-    tls {
-        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
-    reverse_proxy :8080
-  '';
-
-  services.immich = {
-    enable = true;
-    accelerationDevices = null;
-    host = "0.0.0.0";
-  };
-  users.users.immich.extraGroups = [
-    "video"
-    "render"
-  ];
-  services.caddy.virtualHosts."immich.vigovlugt.com".extraConfig = ''
-    tls {
-        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
-    reverse_proxy :2283
-  '';
-
-  services.caddy = {
-    enable = true;
-    package = pkgs.caddy.withPlugins {
-      plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2" ];
-      hash = "sha256-dnhEjopeA0UiI+XVYHYpsjcEI6Y1Hacbi28hVKYQURg=";
-    };
-    environmentFile = "/etc/caddy/secrets.env";
-  };
-
-  systemd.services.restic-backup = {
-    description = "Restic Backup";
-
-    path = [
-      pkgs.restic
-      pkgs.systemd
-      pkgs.curl
-    ];
-
-    serviceConfig = {
-      Type = "oneshot";
-      User = "root";
-      EnvironmentFile = "/etc/restic/secrets.env";
-
-      ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup/start";
-      ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup/\${EXIT_STATUS}";
-    };
-
-    script = ''
-      echo "Stopping services..."
-      systemctl stop opencloud couchdb postgresql immich-server tandoor-recipes actual
-
-      trap "echo 'Restarting services...'; systemctl start opencloud couchdb postgresql immich-server tandoor-recipes actual" EXIT
-
-      echo "Starting backup..."
-      restic backup /var/lib/opencloud /var/lib/couchdb /var/lib/postgresql /var/lib/immich /var/lib/tandoor-recipes /var/lib/actual --exclude /var/lib/immich/thumbs --exclude /var/lib/immich/encoded-video
-    '';
-  };
-
-  systemd.timers.restic-backup = {
-    wantedBy = [ "timers.target" ];
-    partOf = [ "restic-backup.service" ];
-    timerConfig = {
-      OnCalendar = "*-*-* 04:00:00";
-      Persistent = true;
-    };
-  };
-
-  systemd.services.restic-prune = {
-    description = "Restic Prune";
-
-    path = [
-      pkgs.restic
-      pkgs.curl
-    ];
-
-    serviceConfig = {
-      Type = "oneshot";
-      User = "root";
-      EnvironmentFile = "/etc/restic/secrets.env";
-
-      ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-prune/start";
-      ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-prune/\${EXIT_STATUS}";
-    };
-
-    script = ''
-      restic forget --prune --keep-last 7 --keep-daily 7 --keep-weekly 4 --keep-monthly 6
-    '';
-  };
-
-  systemd.timers.restic-prune = {
-    description = "Run restic prune weekly";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "weekly";
-      Persistent = true;
-    };
-  };
-
-  systemd.services.restic-check = {
-    description = "Restic Check";
-
-    path = [
-      pkgs.restic
-      pkgs.curl
-    ];
-
-    serviceConfig = {
-      Type = "oneshot";
-      User = "root";
-      EnvironmentFile = "/etc/restic/secrets.env";
-
-      ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-check/start";
-      ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-check/\${EXIT_STATUS}";
-    };
-
-    script = ''
-      restic check
-    '';
-  };
-
-  systemd.timers.restic-check = {
-    description = "Run restic check monthly";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "0 0 1 * *";
-      Persistent = true;
-    };
-  };
-
   environment.systemPackages = with pkgs; [
     vim
     wget
@@ -249,116 +40,6 @@
     gdu
     opencode
   ];
-
-  services.actual.enable = true;
-  services.caddy.virtualHosts."actual.vigovlugt.com".extraConfig = ''
-    tls {
-        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
-    reverse_proxy :3000
-  '';
-
-  systemd.services.opencode-web = {
-    description = "OpenCode Web Interface";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-    serviceConfig = {
-      User = "vigovlugt";
-      Group = "users";
-      WorkingDirectory = "/home/vigovlugt";
-      ExecStart = "${pkgs.opencode}/bin/opencode web";
-      Restart = "on-failure";
-      RestartSec = "5s";
-    };
-  };
-
-  services.caddy.virtualHosts."opencode.vigovlugt.com".extraConfig = ''
-    tls {
-      dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
-    reverse_proxy :4096
-  '';
-
-  systemd.services.openobserve = {
-    description = "The OpenObserve server";
-    wantedBy = [ "multi-user.target" ];
-    after = [
-      "syslog.target"
-      "network-online.target"
-      "remote-fs.target"
-      "nss-lookup.target"
-    ];
-    wants = [ "network-online.target" ];
-    serviceConfig = {
-      Type = "simple";
-      LimitNOFILE = 65535;
-      StateDirectory = "openobserve";
-      Environment = [ "ZO_DATA_DIR=/var/lib/openobserve" ];
-      EnvironmentFile = "/etc/openobserve/secrets.env";
-      ExecStart = "${pkgs.openobserve}/bin/openobserve";
-      ExecStop = "${pkgs.coreutils}/bin/kill -s QUIT $MAINPID";
-      Restart = "on-failure";
-    };
-  };
-
-  services.caddy.virtualHosts."openobserve.vigovlugt.com".extraConfig = ''
-    tls {
-      dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
-    reverse_proxy :5080
-  '';
-
-  services.openssh.enable = true;
-
-  services.porta-potty = {
-    enable = true;
-    environmentFile = "/etc/porta-potty/secrets.env";
-  };
-
-  services.galactus = {
-    enable = true;
-    environmentFile = "/etc/galactus/secrets.env";
-    settings = {
-      port = 1337;
-      base_url = "https://galactus.vigovlugt.com";
-      jukebox = {
-        device_name = "Q-Series Soundbar";
-        album_map = {
-          "01 22 4C 54" = "spotify:album:5WulAOx9ilWy1h8UGZ1gkI"; # Deadbeat
-          "FE E9 9C 1E" = "spotify:album:0U0Qv2jYtsgGxFDpQJKAxQ"; # Ego death at a bachelorette party
-          "E6 0A 9C 1E" = "spotify:album:5vkqYmiPBYLaalcmjujWxK"; # In rainbows
-          "16 10 9C 1E" = "spotify:album:3HFbH1loOUbqCyPsLuHLLh"; # Room on fire
-          "F4 C5 9C 1E" = "spotify:album:78bpIziExqiI9qztvNFlQu"; # AM
-          "F4 30 9C 1E" = "spotify:album:4LH5M9xS4kK1HKvalSNJVo"; # Galore
-          "0B 7C 9C 1E" = "spotify:album:4TQqRcEliluExEwsmWVenF"; # Choke enough
-          "E3 0B 9C 1E" = "spotify:album:6trNtQUgC8cgbWcqoMYkOR"; # Beerbongs & Bentleys
-          "C7 B5 9C 1E" = "spotify:album:5mIImcsuqpiSXg8XvFr81I"; # Ballads 1
-          "D7 0D 9C 1E" = "spotify:album:2lIZef4lzdvZkiiCzvPKj7"; # Is this it
-          "B9 24 9D 1E" = "spotify:album:4m2880jivSbbyEGAKfITCa"; # Random Access Memories
-          "A6 28 9C 1E" = "spotify:album:79dL7FLiJFOO0EoehUHQBv"; # Currents
-          "31 3C 9C 1E" = "spotify:album:3C2MFZ2iHotUQOSBzdSvM7"; # Lonerism
-          "96 9C 9C 1E" = "spotify:album:1DNSmmRLfv97Yjq7MTFWng"; # Innerspeaker
-          "7E BA 9C 1E" = "spotify:album:1amYhlukNF8WdaQC3gKkgL"; # The now now
-          "0B 23 9D 1E" = "spotify:album:6dVIqQ8qmQ5GBnJ9shOYGE"; # OK Computer
-          "35 4B 9D 1E" = "spotify:album:0NvirtaDCaZU5PAW1O5FDE"; # Humanz
-          "F2 14 9D 1E" = "spotify:album:50Zz8CkIhATKUlQMbHO3k1"; # Whatever people say I am, that's what I'm not
-          "A7 25 9C 1E" = "spotify:album:1XkGORuUX2QGOEIL4EbJKm"; # Favourite Worst Nightmare
-          "F5 EA 9B 1E" = "spotify:album:0XJBeAQSVAZ5yjApvKl2JL"; # Scandinavian boy
-          "F4 DA 9C 1E" = "spotify:album:260VIHFdGNsHL3DKUZYYkc"; # Albino
-          "8C ED 9C 1E" = "spotify:album:5s0rmjP8XOPhP6HhqOhuyC"; # Stoney
-          "7C E1 E2 2E" = "spotify:album:1G40QqbxYWEeelWqf4hpbI"; # Breakfast in America
-          "BD 35 9D 1E" = "spotify:album:6pTMhQX8gt1xegiIwo3Ekb"; # Fire on Marzz
-        };
-      };
-    };
-  };
-
-  services.caddy.virtualHosts."galactus.vigovlugt.com".extraConfig = ''
-    tls {
-      dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
-    reverse_proxy :1337
-  '';
 
   users.users.vigovlugt.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMMoSFdoJdNFgDvjxrlGZW+oi8mOZA++9g4wI3t8oTPJ cassian"
