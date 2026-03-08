@@ -5,7 +5,6 @@
     discord
     vesktop
     spotify
-    kitty
     vscode
     # zed-editor
     code-cursor

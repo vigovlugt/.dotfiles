@@ -9,6 +9,7 @@
     ../modules/home/neovim.nix
     ../modules/home/zoxide.nix
     ../modules/home/packages.nix
+    ../modules/home/cursor.nix
     ../modules/home/hyprland.nix
     ../modules/home/waybar.nix
     ../modules/home/mako.nix

@@ -13,8 +13,8 @@
     ../modules/nixos/bluetooth.nix
     ../modules/nixos/printing.nix
     ../modules/nixos/steam.nix
+    ../modules/nixos/greetd.nix
     ../modules/nixos/hyprland.nix
-    ../modules/nixos/kde.nix
     ../modules/nixos/docker.nix
 
     ../modules/nixos/nix-ld.nix
@@ -35,7 +35,6 @@
   environment.systemPackages = with pkgs; [
     wget
     git
-    kitty
     waybar
     mako
   ];
