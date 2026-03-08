@@ -21,7 +21,7 @@
           "C7 B5 9C 1E" = "spotify:album:5mIImcsuqpiSXg8XvFr81I"; # Ballads 1
           "D7 0D 9C 1E" = "spotify:album:2lIZef4lzdvZkiiCzvPKj7"; # Is this it
           "B9 24 9D 1E" = "spotify:album:4m2880jivSbbyEGAKfITCa"; # Random Access Memories
-          "A6 28 9C 1E" = "spotify:album:79dL7FLiJFOO0EoehUHQBv"; # Currents
+          "A6 88 9C 1E" = "spotify:album:79dL7FLiJFOO0EoehUHQBv"; # Currents
           "31 3C 9C 1E" = "spotify:album:3C2MFZ2iHotUQOSBzdSvM7"; # Lonerism
           "96 9C 9C 1E" = "spotify:album:1DNSmmRLfv97Yjq7MTFWng"; # Innerspeaker
           "7E BA 9C 1E" = "spotify:album:1amYhlukNF8WdaQC3gKkgL"; # The now now

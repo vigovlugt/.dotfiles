@@ -4,19 +4,23 @@
   programs.hyprlock.enable = true;
 
   services.hypridle = {
-    enable = false;
+    enable = true;
 
     settings = {
       general = {
-        lock_cmd = "pidof hyprlock || hyprlock & systemctl suspend";
-        after_sleep_cmd = "hyprctl dispatch dpms on";
+        lock_cmd = "pidof hyprlock || hyprlock";
         before_sleep_cmd = "loginctl lock-session";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
       };
 
       listener = [
         {
           timeout = 300;
           on-timeout = "loginctl lock-session";
+        }
+        {
+          timeout = 330;
+          on-timeout = "systemctl suspend";
         }
       ];
     };

@@ -71,7 +71,10 @@
         force_default_wallpaper = "0";
         disable_hyprland_logo = "true";
       };
-      windowrule = "workspace 2 silent, match:class discord";
+      windowrule = [
+        "workspace 2 silent, match:class ^(discord)$"
+        "workspace 4 silent, match:class ^(Code|code|code-url-handler|Cursor|cursor|cursor-url-handler)$"
+      ];
       animations = {
         enabled = "false";
       };

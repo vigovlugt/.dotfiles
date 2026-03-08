@@ -3,6 +3,8 @@
 {
   networking.hostName = "cassian";
 
+  services.tailscale.extraSetFlags = [ "--accept-dns=false" ];
+
   # Disable ACPI wake-up for GPP0 and GPP8 to prevent unwanted wake-ups
   systemd.services.disable-acpi-wakeup = {
     description = "Disable ACPI wake-up for GPP0 and GPP8";
