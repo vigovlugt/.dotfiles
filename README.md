@@ -18,6 +18,7 @@ winget install -e --id Mozilla.Firefox
 winget install -e --id Discord.Discord
 winget install -e --id RiotGames.LeagueOfLegends.EUW
 winget install -e --id Nvidia.GeForceNow
+winget install -e --id JAMSoftware.TreeSize.Free
 ```
 
 Install https://www.nvidia.com/en-us/software/nvidia-app/
