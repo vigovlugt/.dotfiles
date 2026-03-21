@@ -11,3 +11,11 @@
 ## Anakin configuration
 
 See [./anakin/README.md](./anakin/README.md)
+
+## Windows
+winget install -e --id Mozilla.Firefox
+winget install -e --id Discord.Discord
+winget install -e --id RiotGames.LeagueOfLegends.EUW
+winget install -e --id Nvidia.GeForceNow
+
+Install https://www.nvidia.com/en-us/software/nvidia-app/
