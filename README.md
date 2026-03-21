@@ -21,3 +21,4 @@ winget install -e --id Nvidia.GeForceNow
 ```
 
 Install https://www.nvidia.com/en-us/software/nvidia-app/
+Install https://draftgap.com/
