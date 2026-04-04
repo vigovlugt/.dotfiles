@@ -71,6 +71,9 @@
     bind # nslookup, dig
     jq
     opencode
+    hyperfine
+    vlc
+    ntfs3g
 
     # jetbrains.rider
     # android-studio

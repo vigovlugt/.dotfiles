@@ -10,7 +10,9 @@
     syntaxHighlighting.enable = true;
 
     shellAliases = {
-      upgrade = "nixos-rebuild switch --flake ~/.dotfiles --sudo";
+      # no-reexec results in the current nixos-rebuild binary being used, rather than the one from the newly build flake
+      # This saves 1.3s on my machine (from 13.7s)
+      upgrade = "nixos-rebuild switch --flake ~/.dotfiles --sudo --no-reexec";
       update = "nix flake update --flake ~/.dotfiles";
     };
 

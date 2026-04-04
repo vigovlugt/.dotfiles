@@ -30,6 +30,9 @@
 
       set -g default-terminal "tmux-256color"
       set -ag terminal-overrides ",xterm-256color:RGB"
+
+      set -g mouse on
     '';
+
   };
 }
