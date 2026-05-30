@@ -12,7 +12,7 @@
     nixpkgs-fmt
     htop
     btop
-    neofetch
+    fastfetch
     wl-clipboard
     gdu
     ripgrep

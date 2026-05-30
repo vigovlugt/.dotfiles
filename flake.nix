@@ -11,10 +11,6 @@
       url = "git+ssh://git@github.com/vigovlugt/galactus.git"; # nix flake update galactus
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    porta-potty = {
-      url = "git+ssh://git@github.com/vigovlugt/porta-potty.git";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -22,7 +18,6 @@
       nixpkgs,
       home-manager,
       galactus,
-      porta-potty,
       ...
     }:
     {
@@ -74,7 +69,6 @@
           modules = [
             ./anakin/configuration.nix
             ./anakin/hardware-configuration.nix
-            porta-potty.nixosModules.default
             galactus.nixosModules.default
             home-manager.nixosModules.home-manager
             {

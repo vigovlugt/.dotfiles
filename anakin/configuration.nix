@@ -16,13 +16,13 @@
     ./services/couchdb.nix
     ./services/postgresql.nix
     ./services/tandoor.nix
+    ./services/miniflux.nix
     ./services/immich.nix
     ./services/actual.nix
     ./services/openobserve.nix
     ./services/opencode-web.nix
     ./services/restic.nix
     ./services/galactus.nix
-    ./services/porta-potty.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;

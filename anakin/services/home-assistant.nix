@@ -11,6 +11,7 @@
       "samsungtv"
       "cast"
       "spotify"
+      "matter"
     ];
     config = {
       default_config = { };
@@ -20,6 +21,9 @@
         trusted_proxies = "127.0.0.1";
       };
     };
+  };
+  services.matter-server = {
+    enable = true;
   };
 
   services.caddy.virtualHosts."hass.vigovlugt.com".extraConfig = ''
