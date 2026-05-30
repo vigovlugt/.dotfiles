@@ -17,6 +17,7 @@
     ./services/postgresql.nix
     ./services/tandoor.nix
     ./services/miniflux.nix
+    ./services/karakeep.nix
     ./services/immich.nix
     ./services/actual.nix
     ./services/openobserve.nix
