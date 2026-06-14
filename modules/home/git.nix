@@ -17,6 +17,7 @@
       };
     };
     lfs.enable = true;
+    signing.format = null; # 26.05 default
   };
 
   programs.gh.enable = true;

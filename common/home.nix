@@ -31,7 +31,7 @@
   programs.zsh.shellAliases = {
     windows = "systemctl reboot --boot-loader-entry=auto-windows";
     config = "cursor ~/.dotfiles";
-    upgrade-anakin = "nixos-rebuild switch --flake ~/.dotfiles --target-host root@anakin --build-host root@anakin";
+    upgrade-anakin = "nixos-rebuild switch --flake ~/.dotfiles --target-host root@anakin";
     nixdev = "nix develop --command $SHELL";
     collect-garbage = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
   };
