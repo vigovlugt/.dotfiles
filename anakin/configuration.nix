@@ -22,6 +22,7 @@
     ./services/actual.nix
     ./services/openobserve.nix
     ./services/opencode-web.nix
+    ./services/syncthing.nix
     ./services/restic.nix
     ./services/galactus.nix
   ];

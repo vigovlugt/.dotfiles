@@ -21,12 +21,12 @@
 
     script = ''
       echo "Stopping services..."
-      systemctl stop opencloud couchdb postgresql immich-server tandoor-recipes actual
+      systemctl stop opencloud couchdb postgresql immich-server tandoor-recipes actual syncthing
 
-      trap "echo 'Restarting services...'; systemctl start opencloud couchdb postgresql immich-server tandoor-recipes actual" EXIT
+      trap "echo 'Restarting services...'; systemctl start opencloud couchdb postgresql immich-server tandoor-recipes actual syncthing" EXIT
 
       echo "Starting backup..."
-      restic backup /var/lib/opencloud /var/lib/couchdb /var/lib/postgresql /var/lib/immich /var/lib/tandoor-recipes /var/lib/actual --exclude /var/lib/immich/thumbs --exclude /var/lib/immich/encoded-video
+      restic backup /var/lib/opencloud /var/lib/couchdb /var/lib/postgresql /var/lib/immich /var/lib/tandoor-recipes /var/lib/actual /var/lib/syncthing --exclude /var/lib/immich/thumbs --exclude /var/lib/immich/encoded-video
     '';
   };
 
