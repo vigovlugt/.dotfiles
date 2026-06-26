@@ -6,6 +6,23 @@
 
 1. export hostname=anakin:5984 export username=admin export password=admin && curl -s https://raw.githubusercontent.com/vrtmrz/obsidian-livesync/main/utils/couchdb/couchdb-init.sh | bash
 
+### Syncthing
+
+1. Create `/etc/syncthing/gui-password`
+
+2. Preserve an existing node identity
+
+```bash
+mv cert.pem /etc/syncthing/cert.pem
+mv key.pem /etc/syncthing/key.pem
+```
+
+Or generate a new node identity
+
+```bash
+sudo -u syncthing syncthing generate --home /etc/syncthing
+```
+
 ### Caddy
 
 1. Create /etc/caddy/secrets.env

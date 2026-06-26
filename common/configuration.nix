@@ -7,6 +7,7 @@
     ../modules/nixos/networking.nix
     ../modules/nixos/user.nix
     ../modules/nixos/tailscale.nix
+    ../modules/nixos/syncthing.nix
     ../modules/nixos/avahi.nix
     ../modules/nixos/nvidia.nix
     ../modules/nixos/pipewire.nix
@@ -37,6 +38,7 @@
     git
     waybar
     mako
+    jetbrains.idea
   ];
 
   system.stateVersion = "24.05";

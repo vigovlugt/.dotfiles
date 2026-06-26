@@ -39,7 +39,6 @@
         "$mod, Space, exec, $menu"
         "$mod, F, fullscreen,"
         "$mod, P, pseudo,"
-        "$mod, J, togglesplit,"
         "$mod, left, movefocus, l"
         "$mod, right, movefocus, r"
         "$mod, up, movefocus, u"
