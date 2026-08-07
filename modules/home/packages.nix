@@ -37,6 +37,7 @@
     heroic
     pulumi
     android-tools
+    proton-vpn-cli
 
     # Languages
     nodejs
