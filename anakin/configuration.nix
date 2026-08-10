@@ -23,6 +23,7 @@
     ./services/openobserve.nix
     ./services/opencode-web.nix
     ./services/open-webui.nix
+    ./services/searxng.nix
     ./services/syncthing.nix
     ./services/restic.nix
     ./services/galactus.nix
