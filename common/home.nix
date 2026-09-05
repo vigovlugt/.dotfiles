@@ -36,5 +36,7 @@
     collect-garbage = "sudo nix-collect-garbage -d && nix-collect-garbage -d";
   };
 
+  programs.dbeaver.enable = true;
+
   home.stateVersion = "24.05";
 }
