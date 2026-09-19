@@ -21,6 +21,7 @@
     google-chrome
     qbittorrent
     vlc
+    libwebp
     slack
     bombardier
     air

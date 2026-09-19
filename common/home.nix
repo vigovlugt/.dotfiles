@@ -15,6 +15,7 @@
     ../modules/home/mako.nix
     ../modules/home/firefox.nix
     ../modules/home/ghostty.nix
+    ../modules/home/herdr.nix
     ../modules/home/thunderbird.nix
     ../modules/home/hyprlock.nix
     ../modules/home/vicinae.nix

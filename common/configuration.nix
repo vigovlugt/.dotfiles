@@ -24,6 +24,8 @@
     ../modules/nixos/libinput.nix
   ];
 
+  services.udisks2.enable = true; # dolphin devices
+
   # Desktop-specific extra groups (merged with base user.nix groups)
   users.users.vigovlugt.extraGroups = [
     "input"
