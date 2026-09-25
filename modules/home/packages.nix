@@ -86,5 +86,6 @@
     grimblast
     nmap
     kdePackages.dolphin
+    comma
   ];
 }
