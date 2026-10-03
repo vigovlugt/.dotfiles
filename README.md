@@ -19,6 +19,9 @@ winget install -e --id Discord.Discord
 winget install -e --id RiotGames.LeagueOfLegends.EUW
 winget install -e --id Nvidia.GeForceNow
 winget install -e --id JAMSoftware.TreeSize.Free
+winget install -e --id Anthropic.ClaudeCode
+winget install -e --id GitHub.cli
+winget install -e --id Python.Python.3.12
 ```
 
 Install https://www.nvidia.com/en-us/software/nvidia-app/
