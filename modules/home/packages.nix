@@ -87,5 +87,6 @@
     nmap
     kdePackages.dolphin
     comma
+    claude-code
   ];
 }
