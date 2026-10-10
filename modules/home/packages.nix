@@ -36,7 +36,6 @@
     arduino-ide
     arduino-cli
     heroic
-    pulumi
     android-tools
     proton-vpn-cli
 
@@ -50,7 +49,6 @@
     zig
     # dotnet-sdk_8
     nil
-    nixd
 
     gopls
     delve
@@ -74,12 +72,10 @@
     jq
     opencode
     hyperfine
-    vlc
     ntfs3g
 
     # jetbrains.rider
     # android-studio
-    android-tools
     # azure-cli
     pavucontrol
     unzip

@@ -15,13 +15,8 @@ function setupCloudflare() {
   const aliases = [
     "couchdb",
     "hass",
-    "mass",
     "opencloud",
-    "tandoor",
     "immich",
-    "actual",
-    "opencode",
-    "openobserve"
   ];
 
   for (const alias of aliases) {

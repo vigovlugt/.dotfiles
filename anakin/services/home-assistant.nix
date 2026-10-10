@@ -7,7 +7,6 @@
       "google_translate" # TTS
       "met" # weather
       "isal" # better compression
-      "music_assistant"
       "samsungtv"
       "cast"
       "spotify"

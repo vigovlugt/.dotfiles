@@ -4,7 +4,6 @@
   imports = [
     ../modules/home/base.nix
     ../modules/home/zsh.nix
-    ../modules/home/tmux.nix
     ../modules/home/git.nix
     ../modules/home/neovim.nix
     ../modules/home/zoxide.nix

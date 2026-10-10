@@ -11,17 +11,12 @@
     ../modules/nixos/openssh.nix
     ./services/caddy.nix
     ./services/home-assistant.nix
-    ./services/music-assistant.nix
     ./services/opencloud.nix
     ./services/couchdb.nix
     ./services/postgresql.nix
-    ./services/tandoor.nix
     ./services/miniflux.nix
     ./services/karakeep.nix
     ./services/immich.nix
-    ./services/actual.nix
-    ./services/openobserve.nix
-    ./services/opencode-web.nix
     ./services/open-webui.nix
     ./services/searxng.nix
     ./services/syncthing.nix
