@@ -13,9 +13,6 @@
   };
 
   services.caddy.virtualHosts."openwebui.vigovlugt.com".extraConfig = ''
-    tls {
-      dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
     reverse_proxy :8082
   '';
 }

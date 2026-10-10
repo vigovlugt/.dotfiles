@@ -2,6 +2,32 @@ import * as pulumi from "@pulumi/pulumi";
 import * as cloudflare from "@pulumi/cloudflare";
 import * as healthchecksio from "@pulumi/healthchecksio";
 import * as b2 from "@pulumi/b2";
+import { execFileSync } from "node:child_process";
+import * as path from "node:path";
+
+// Subdomains served by Caddy on anakin, read from the NixOS config so DNS stays in sync with it.
+function anakinSubdomains(domain: string): string[] {
+  const flake = path.resolve(__dirname, "..");
+  const hosts: string[] = JSON.parse(
+    execFileSync(
+      "nix",
+      [
+        "eval",
+        "--json",
+        `${flake}#nixosConfigurations.anakin.config.services.caddy.virtualHosts`,
+        "--apply",
+        "builtins.attrNames",
+      ],
+      { encoding: "utf8", stdio: ["ignore", "pipe", "inherit"] }
+    )
+  );
+  return hosts.map((host) => {
+    if (!host.endsWith(`.${domain}`)) {
+      throw new Error(`Caddy host ${host} is not under ${domain}`);
+    }
+    return host.slice(0, -(domain.length + 1));
+  });
+}
 
 function setupCloudflare() {
   const cfConfig = new pulumi.Config("cloudflare");
@@ -12,12 +38,7 @@ function setupCloudflare() {
   });
 
   const zoneId = "606507539cbba31bf73aa0199da9edc1"; // vigovlugt.com
-  const aliases = [
-    "couchdb",
-    "hass",
-    "opencloud",
-    "immich",
-  ];
+  const aliases = anakinSubdomains("vigovlugt.com");
 
   for (const alias of aliases) {
     new cloudflare.DnsRecord(

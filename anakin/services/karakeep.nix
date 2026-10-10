@@ -14,9 +14,6 @@
   ];
 
   services.caddy.virtualHosts."karakeep.vigovlugt.com".extraConfig = ''
-    tls {
-      dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
     reverse_proxy :3001
   '';
 }

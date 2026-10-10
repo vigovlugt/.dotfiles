@@ -8,5 +8,8 @@
       hash = "sha256-xAw+kBA+rdhzABdogwNCo9zEtNMPG7zj5rgPpFxvpDo=";
     };
     environmentFile = "/etc/caddy/secrets.env";
+    globalConfig = ''
+      acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    '';
   };
 }

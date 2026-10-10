@@ -96,7 +96,7 @@
     description = "Run restic check monthly";
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnCalendar = "0 0 1 * *";
+      OnCalendar = "monthly";
       Persistent = true;
     };
   };

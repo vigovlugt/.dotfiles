@@ -40,9 +40,6 @@
   };
 
   services.caddy.virtualHosts."galactus.vigovlugt.com".extraConfig = ''
-    tls {
-      dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
     reverse_proxy :1337
   '';
 }

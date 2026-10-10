@@ -16,6 +16,7 @@
     ../modules/nixos/steam.nix
     ../modules/nixos/greetd.nix
     ../modules/nixos/hyprland.nix
+    ../modules/nixos/keyring.nix
     ../modules/nixos/docker.nix
 
     ../modules/nixos/nix-ld.nix
