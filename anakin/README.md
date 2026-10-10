@@ -2,17 +2,17 @@
 
 ## Secrets
 
-Secrets are encrypted with [agenix](https://github.com/ryantm/agenix) in `secrets/` and decrypted to `/run/agenix/` on activation, using anakin's SSH host key. `secrets/secrets.nix` lists who can decrypt each file (cassian's SSH key and anakin's host key).
+Secrets are encrypted with [agenix](https://github.com/ryantm/agenix) in `secrets/` and decrypted to `/run/agenix/` on activation, using anakin's SSH host key. `secrets/agenix-rules.nix` lists who can decrypt each file (cassian's SSH key and anakin's host key).
 
 ```bash
 cd anakin/secrets
-agenix -e gatus.env.age # edit (or create: also add it to secrets.nix)
-agenix -r              # re-encrypt all after changing keys in secrets.nix
+agenix -e gatus.env.age # edit (or create: also add it to agenix-rules.nix)
+agenix -r              # re-encrypt all after changing keys in agenix-rules.nix
 ```
 
 Services do not restart on a secret change; restart them manually after deploying.
 
-After reinstalling anakin, its SSH host key changes: update `anakin` in `secrets/secrets.nix` (`ssh-keyscan -t ed25519 anakin`) and run `agenix -r` from cassian before deploying.
+After reinstalling anakin, its SSH host key changes: update `anakin` in `secrets/agenix-rules.nix` (`ssh-keyscan -t ed25519 anakin`) and run `agenix -r` from cassian before deploying.
 
 ## Setup
 
