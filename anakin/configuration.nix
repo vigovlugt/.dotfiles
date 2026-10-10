@@ -22,6 +22,7 @@
     ./services/syncthing.nix
     ./services/restic.nix
     ./services/galactus.nix
+    ./services/gatus.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;

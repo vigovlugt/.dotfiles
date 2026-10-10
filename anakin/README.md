@@ -31,6 +31,15 @@ sudo -u syncthing syncthing generate --home /etc/syncthing
 CLOUDFLARE_API_TOKEN=""
 ```
 
+### Gatus
+
+1. Create a Gmail app password at https://myaccount.google.com/apppasswords (requires 2-step verification)
+2. Create /etc/gatus/secrets.env
+
+```bash
+GMAIL_APP_PASSWORD=""
+```
+
 ### Backup
 
 1. Create /etc/restic/secrets.env
