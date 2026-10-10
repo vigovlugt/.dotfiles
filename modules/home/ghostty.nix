@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   programs.ghostty = {
@@ -6,6 +6,7 @@
     settings = {
       theme = "Cursor Dark";
       shell-integration-features = "ssh-terminfo";
+      command = "${pkgs.herdr}/bin/herdr";
     };
   };
 }
