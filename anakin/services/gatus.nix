@@ -1,9 +1,11 @@
 { config, lib, ... }:
 
 {
+  age.secrets.gatus-env.file = ../secrets/gatus.env.age;
+
   services.gatus = {
     enable = true;
-    environmentFile = "/etc/gatus/secrets.env";
+    environmentFile = config.age.secrets.gatus-env.path;
     settings = {
       web = {
         address = "127.0.0.1";

@@ -11,6 +11,10 @@
       url = "git+ssh://git@github.com/vigovlugt/galactus.git"; # nix flake update galactus
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -18,6 +22,7 @@
       nixpkgs,
       home-manager,
       galactus,
+      agenix,
       ...
     }:
     {
@@ -28,6 +33,7 @@
             ./common/configuration.nix
             ./cassian/hardware-configuration.nix
             ./cassian/configuration.nix
+            { environment.systemPackages = [ agenix.packages.x86_64-linux.default ]; }
             home-manager.nixosModules.home-manager
             galactus.nixosModules.default
             {
@@ -49,6 +55,7 @@
             ./common/configuration.nix
             ./laptop/hardware-configuration.nix
             ./laptop/configuration.nix
+            { environment.systemPackages = [ agenix.packages.x86_64-linux.default ]; }
             galactus.nixosModules.default
             home-manager.nixosModules.home-manager
             {
@@ -70,6 +77,7 @@
             ./anakin/configuration.nix
             ./anakin/hardware-configuration.nix
             galactus.nixosModules.default
+            agenix.nixosModules.default
             home-manager.nixosModules.home-manager
             {
               home-manager = {

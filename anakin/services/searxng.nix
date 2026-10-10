@@ -1,9 +1,11 @@
-{ ... }:
+{ config, ... }:
 
 {
+  age.secrets.searxng-env.file = ../secrets/searxng.env.age;
+
   services.searx = {
     enable = true;
-    environmentFile = "/var/lib/searx/secrets.env";
+    environmentFile = config.age.secrets.searxng-env.path;
     settings = {
       server = {
         base_url = "https://searxng.vigovlugt.com/";

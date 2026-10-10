@@ -1,6 +1,8 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
+  age.secrets.restic-env.file = ../secrets/restic.env.age;
+
   systemd.services.restic-backup = {
     description = "Restic Backup";
 
@@ -13,7 +15,7 @@
     serviceConfig = {
       Type = "oneshot";
       User = "root";
-      EnvironmentFile = "/etc/restic/secrets.env";
+      EnvironmentFile = config.age.secrets.restic-env.path;
 
       ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup/start";
       ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup/\${EXIT_STATUS}";
@@ -50,7 +52,7 @@
     serviceConfig = {
       Type = "oneshot";
       User = "root";
-      EnvironmentFile = "/etc/restic/secrets.env";
+      EnvironmentFile = config.age.secrets.restic-env.path;
 
       ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-prune/start";
       ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-prune/\${EXIT_STATUS}";
@@ -81,7 +83,7 @@
     serviceConfig = {
       Type = "oneshot";
       User = "root";
-      EnvironmentFile = "/etc/restic/secrets.env";
+      EnvironmentFile = config.age.secrets.restic-env.path;
 
       ExecStartPre = "-${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-check/start";
       ExecStopPost = "${pkgs.curl}/bin/curl -sS -m 10 --retry 5 https://hc-ping.com/\${HEALTHCHECKSIO_PING_KEY}/anakin-backup-check/\${EXIT_STATUS}";

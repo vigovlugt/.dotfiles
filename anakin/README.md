@@ -1,5 +1,19 @@
 # Anakin
 
+## Secrets
+
+Secrets are encrypted with [agenix](https://github.com/ryantm/agenix) in `secrets/` and decrypted to `/run/agenix/` on activation, using anakin's SSH host key. `secrets/secrets.nix` lists who can decrypt each file (cassian's SSH key and anakin's host key).
+
+```bash
+cd anakin/secrets
+agenix -e gatus.env.age # edit (or create: also add it to secrets.nix)
+agenix -r              # re-encrypt all after changing keys in secrets.nix
+```
+
+Services do not restart on a secret change; restart them manually after deploying.
+
+After reinstalling anakin, its SSH host key changes: update `anakin` in `secrets/secrets.nix` (`ssh-keyscan -t ed25519 anakin`) and run `agenix -r` from cassian before deploying.
+
 ## Setup
 
 ### CouchDB
@@ -8,24 +22,16 @@
 
 ### Syncthing
 
-1. Create `/etc/syncthing/gui-password`
-
-2. Preserve an existing node identity
+GUI password and node identity (`cert.pem`, `key.pem`) are in `secrets/syncthing-*.age`. To generate a new node identity:
 
 ```bash
-mv cert.pem /etc/syncthing/cert.pem
-mv key.pem /etc/syncthing/key.pem
-```
-
-Or generate a new node identity
-
-```bash
-sudo -u syncthing syncthing generate --home /etc/syncthing
+syncthing generate --home /tmp/syncthing
+# then encrypt /tmp/syncthing/{cert,key}.pem into secrets/syncthing-{cert,key}.pem.age
 ```
 
 ### Caddy
 
-1. Create /etc/caddy/secrets.env
+`secrets/caddy.env.age`:
 
 ```bash
 CLOUDFLARE_API_TOKEN=""
@@ -33,8 +39,7 @@ CLOUDFLARE_API_TOKEN=""
 
 ### Gatus
 
-1. Create a Gmail app password at https://myaccount.google.com/apppasswords (requires 2-step verification)
-2. Create /etc/gatus/secrets.env
+`secrets/gatus.env.age`, with a Gmail app password from https://myaccount.google.com/apppasswords (requires 2-step verification):
 
 ```bash
 GMAIL_APP_PASSWORD=""
@@ -42,7 +47,7 @@ GMAIL_APP_PASSWORD=""
 
 ### Backup
 
-1. Create /etc/restic/secrets.env
+`secrets/restic.env.age`:
 
 ```bash
 # anakin-backup
@@ -55,9 +60,7 @@ HEALTHCHECKSIO_UUID=""
 
 #### Setup new repository
 
-After creating /etc/restic/secrets.env
-
-1. Run `set -o allexport && source /etc/restic/secrets.env && set +o allexport`
+1. Run `sudo -s`, then `set -o allexport && source /run/agenix/restic-env && set +o allexport`
 2. Run `sudo -E restic init`
 
 ```
@@ -80,9 +83,7 @@ See [this](#backup)
 
 ### Restore
 
-After creating /etc/restic/secrets.env
-
-1. `set -o allexport && source /etc/restic/secrets.env && set +o allexport`
+1. `sudo -s`, then `set -o allexport && source /run/agenix/restic-env && set +o allexport`
 2. `sudo -E restic restore latest --target /`
 
 Restore one folder

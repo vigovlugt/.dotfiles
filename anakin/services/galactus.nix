@@ -1,9 +1,15 @@
-{ ... }:
+{ config, ... }:
 
 {
+  age.secrets.galactus-env = {
+    file = ../secrets/galactus.env.age;
+    owner = "galactus";
+    group = "galactus";
+  };
+
   services.galactus = {
     enable = true;
-    environmentFile = "/etc/galactus/secrets.env";
+    environmentFile = config.age.secrets.galactus-env.path;
     settings = {
       port = 1337;
       base_url = "https://galactus.vigovlugt.com";
