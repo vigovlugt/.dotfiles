@@ -29,7 +29,7 @@
         };
       };
       # One check per Caddy host, so new services are monitored automatically,
-      # plus private external sites whose hosts come from environmentFile
+      # plus external sites (private ones get their host from environmentFile)
       endpoints = map (host: {
         name = lib.removeSuffix ".vigovlugt.com" host;
         url = "https://${host}";
@@ -40,6 +40,8 @@
         ];
         alerts = [ { type = "email"; } ];
       }) (builtins.attrNames config.services.caddy.virtualHosts ++ [
+        "leagueofitems.com"
+        "draftgap.com"
         "\${PRIVATE_SITE_1}"
       ]);
     };
