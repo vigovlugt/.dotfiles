@@ -28,7 +28,8 @@
           send-on-resolved = true;
         };
       };
-      # One check per Caddy host, so new services are monitored automatically
+      # One check per Caddy host, so new services are monitored automatically,
+      # plus private external sites whose hosts come from environmentFile
       endpoints = map (host: {
         name = lib.removeSuffix ".vigovlugt.com" host;
         url = "https://${host}";
@@ -38,7 +39,9 @@
           "[CERTIFICATE_EXPIRATION] > 168h"
         ];
         alerts = [ { type = "email"; } ];
-      }) (builtins.attrNames config.services.caddy.virtualHosts);
+      }) (builtins.attrNames config.services.caddy.virtualHosts ++ [
+        "\${PRIVATE_SITE_1}"
+      ]);
     };
   };
 

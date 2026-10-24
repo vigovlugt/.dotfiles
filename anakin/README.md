@@ -43,6 +43,7 @@ CLOUDFLARE_API_TOKEN=""
 
 ```bash
 GMAIL_APP_PASSWORD=""
+PRIVATE_SITE_1="" # host of a site to monitor that should not be public
 ```
 
 ### Backup

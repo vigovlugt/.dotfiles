@@ -23,6 +23,7 @@
     ./services/restic.nix
     ./services/galactus.nix
     ./services/gatus.nix
+    ./services/music-assistant.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
